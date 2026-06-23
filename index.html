@@ -156,6 +156,27 @@ h2.section-title{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:700;letter-spaci
 .nav.open .hamburger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
 /* =========================================================
+   LANGUAGE SWITCHER + SPLASH SCREEN
+   ========================================================= */
+.nav-right{display:flex;align-items:center;gap:14px}
+.lang-switch{display:flex;align-items:center;gap:3px;font-family:var(--mono);font-size:.74rem}
+.lang-switch button{padding:6px 9px;border-radius:7px;color:var(--faint);border:1px solid transparent;letter-spacing:.06em;transition:color .2s ease,border-color .2s ease,background .2s ease}
+.lang-switch button:hover{color:var(--fg)}
+.lang-switch button.active{color:var(--fg);border-color:var(--border);background:var(--card)}
+.lang-switch .div{color:var(--faint);opacity:.45}
+
+.splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);transition:opacity .5s ease}
+.splash.hide{opacity:0;pointer-events:none}
+.splash-box{max-width:620px;width:100%}
+.splash-dot{width:10px;height:10px;border-radius:50%;background:var(--fg);margin:0 auto 26px;box-shadow:0 0 0 5px var(--glow)}
+.splash-name{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:800;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px}
+.splash-title{font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);line-height:2;margin-bottom:34px}
+.splash-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.lang-ghost{font-family:var(--mono);font-size:1rem;letter-spacing:.16em;padding:15px 30px;border:1px solid var(--border-strong);border-radius:12px;background:transparent;color:var(--fg);transition:transform .25s ease,background .25s ease,color .25s ease}
+.lang-ghost:hover{background:var(--fg);color:var(--bg);transform:translateY(-3px)}
+
+/* =========================================================
    BUTTONS
    ========================================================= */
 .btn{
@@ -492,6 +513,21 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <div id="vanta-bg" aria-hidden="true"></div>
 <div class="bg-veil" aria-hidden="true"></div>
 
+<!-- ===================== LANGUAGE SPLASH ===================== -->
+<div class="splash" id="splash" role="dialog" aria-label="Select language">
+  <div class="splash-box">
+    <div class="splash-dot" aria-hidden="true"></div>
+    <div class="splash-name">Kristofers Avotiņš</div>
+    <div class="splash-title">SELECT LANGUAGE&nbsp;&nbsp;//&nbsp;&nbsp;IZVĒLIETIES VALODU&nbsp;&nbsp;//&nbsp;&nbsp;ВЫБЕРИТЕ ЯЗЫК</div>
+    <div class="splash-btns">
+      <button class="lang-ghost" data-lang="lv">[ LV ]</button>
+      <button class="lang-ghost" data-lang="en">[ EN ]</button>
+      <button class="lang-ghost" data-lang="ru">[ RU ]</button>
+    </div>
+  </div>
+</div>
+<noscript><style>#splash{display:none!important}</style></noscript>
+
 <!-- ===================== NAVIGATION ===================== -->
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
@@ -499,16 +535,23 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
       <span class="dot" aria-hidden="true"></span>
       KRISTOFERS AVOTIŅŠ
       <span class="sep">//</span>
-      <span class="role">IT SPECIALIST</span>
+      <span class="role" data-i18n="brandRole">IT SPECIALIST</span>
     </a>
-    <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="nav-right">
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#about" data-i18n="navAbout">About</a>
+        <a href="#experience" data-i18n="navExp">Experience</a>
+        <a href="#skills" data-i18n="navSkills">Skills</a>
+        <a href="#projects" data-i18n="navProjects">Projects</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="lang-switch" id="langSwitch" aria-label="Language">
+        <button data-lang="lv">LV</button><span class="div">|</span>
+        <button data-lang="en">EN</button><span class="div">|</span>
+        <button data-lang="ru">RU</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
 
@@ -516,7 +559,7 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="hero">
   <div class="wrap hero-inner">
-    <span class="hero-badge reveal"><span class="live" aria-hidden="true"></span> Available for new technical challenges // Status: Active 2026</span>
+    <span class="hero-badge reveal"><span class="live" aria-hidden="true"></span> <span data-i18n="heroBadge">Available for new technical challenges // Status: Active 2026</span></span>
     <h1>
       <span class="ln"><span>Kristofers</span></span>
       <span class="ln"><span class="outline">Avotiņš</span></span>
@@ -525,22 +568,22 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
       <span class="pre">&gt;</span>
       <span class="type" id="typeText"></span><span class="cursor" aria-hidden="true"></span>
     </p>
-    <p class="hook reveal">Results-driven IT Specialist and passionate vibe coder combining international training with deep technical analysis to engineer high-efficiency digital infrastructure. Expert in <strong>data management, backend logic, and clean web engineering.</strong> Proven track record of boosting enterprise productivity by 20% through creative problem-solving and positive team energy.</p>
+    <p class="hook reveal" data-i18n="heroHook">Results-driven IT Specialist and passionate vibe coder combining international training with deep technical analysis to engineer high-efficiency digital infrastructure. Expert in <strong>data management, backend logic, and clean web engineering.</strong> Proven track record of boosting enterprise productivity by 20% through creative problem-solving and positive team energy.</p>
     <div class="hero-cta reveal">
       <a href="#projects" class="btn btn-primary">
-        View Live Projects
+        <span data-i18n="cta1">View Live Projects</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-      <button class="btn btn-ghost" id="downloadCv">
-        Download CV
+      <a class="btn btn-ghost" id="downloadCv" href="Kristofers_Avotins_CV_LV.pdf" download>
+        <span data-i18n="cta2">Download CV</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
-      </button>
+      </a>
     </div>
     <div class="hero-meta reveal">
-      <div class="cell"><div class="num">+20%</div><div class="lbl">Productivity Gain · Enterprise</div></div>
-      <div class="cell"><div class="num">3+</div><div class="lbl">Years Experience</div></div>
-      <div class="cell"><div class="num">2</div><div class="lbl">London Diplomas</div></div>
-      <div class="cell"><div class="num">6+</div><div class="lbl">Production Projects</div></div>
+      <div class="cell"><div class="num">+20%</div><div class="lbl" data-i18n="m1">Productivity Gain · Enterprise</div></div>
+      <div class="cell"><div class="num">3+</div><div class="lbl" data-i18n="m2">Years Experience</div></div>
+      <div class="cell"><div class="num">2</div><div class="lbl" data-i18n="m3">London Diplomas</div></div>
+      <div class="cell"><div class="num">6+</div><div class="lbl" data-i18n="m4">Production Projects</div></div>
     </div>
   </div>
 </section>
@@ -549,40 +592,40 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section class="vibe" id="vibe">
   <div class="wrap">
     <div class="vibe-head reveal">
-      <span class="eyebrow">// The Paradigm</span>
-      <h2>I'm a <span class="hl">Vibe Coder.</span> Deep foundations, <br>powered by AI-augmented velocity.</h2>
-      <p>My foundations are real: Python, PHP, SQL and two London diplomas. A <strong style="color:var(--fg)">Vibe Coder</strong> is a creative, intuitive, full-stack and versatile developer who brings great energy, rapid prototyping and highly practical solutions to a team. I design the logic, understand every line of the output, and use AI purely as an accelerator to ship robust software at lightning speed — compressing weeks of traditional manual typing into focused hours of high-leverage engineering.</p>
+      <span class="eyebrow" data-i18n="vibeEyebrow">// The Paradigm</span>
+      <h2 data-i18n="vibeH2">I'm a <span class="hl">Vibe Coder.</span> Deep foundations, <br>powered by AI-augmented velocity.</h2>
+      <p data-i18n="vibeLead">My foundations are real: Python, PHP, SQL and two London diplomas. A <strong style="color:var(--fg)">Vibe Coder</strong> is a creative, intuitive, full-stack and versatile developer who brings great energy, rapid prototyping and highly practical solutions to a team. I design the logic, understand every line of the output, and use AI purely as an accelerator to ship robust software at lightning speed — compressing weeks of traditional manual typing into focused hours of high-leverage engineering.</p>
     </div>
 
     <div class="vibe-grid">
       <div class="glass vibe-card reveal">
         <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span>
-        <h3>AI-Augmented Velocity</h3>
-        <p>I command AI engines to materialize architecture, boilerplate and integrations instantly — compressing weeks of manual typing into focused hours of high-leverage engineering.</p>
+        <h3 data-i18n="vibeC1t">AI-Augmented Velocity</h3>
+        <p data-i18n="vibeC1d">I command AI engines to materialize architecture, boilerplate and integrations instantly — compressing weeks of manual typing into focused hours of high-leverage engineering.</p>
       </div>
       <div class="glass vibe-card reveal">
         <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-6h6v6M7 11h.01M12 11h.01M17 11h.01"/></svg></span>
-        <h3>Architect, Not Typist</h3>
-        <p>I design the system logic first — data flow, schemas, state and security. AI handles the keystrokes; the structure, decisions and trade-offs are entirely mine.</p>
+        <h3 data-i18n="vibeC2t">Architect, Not Typist</h3>
+        <p data-i18n="vibeC2d">I design the system logic first — data flow, schemas, state and security. AI handles the keystrokes; the structure, decisions and trade-offs are entirely mine.</p>
       </div>
       <div class="glass vibe-card reveal">
         <span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m9 9 3-3 3 3M9 15l3 3 3-3"/><circle cx="12" cy="12" r="9"/></svg></span>
-        <h3>Total Code Understanding</h3>
-        <p>Nothing ships as a black box. I read, audit and refine every generated line so each system stays maintainable, debuggable and genuinely owned — not just pasted.</p>
+        <h3 data-i18n="vibeC3t">Total Code Understanding</h3>
+        <p data-i18n="vibeC3d">Nothing ships as a black box. I read, audit and refine every generated line so each system stays maintainable, debuggable and genuinely owned — not just pasted.</p>
       </div>
     </div>
 
     <div class="glass velocity reveal" id="velocity">
       <div class="v-top">
-        <h3>Weeks → Hours</h3>
-        <span class="v-note">// relative delivery time, identical scope</span>
+        <h3 data-i18n="velTitle">Weeks → Hours</h3>
+        <span class="v-note" data-i18n="velNote">// relative delivery time, identical scope</span>
       </div>
       <div class="vbar trad">
-        <div class="vb-label"><span>Traditional row-by-row build</span><span class="tag">~ weeks</span></div>
+        <div class="vb-label"><span data-i18n="barTrad">Traditional row-by-row build</span><span class="tag" data-i18n="barTradTag">~ weeks</span></div>
         <div class="track"><span class="fill"></span></div>
       </div>
       <div class="vbar vibe-fill">
-        <div class="vb-label"><span>Vibe-coded · AI-augmented build</span><span class="tag">~ hours</span></div>
+        <div class="vb-label"><span data-i18n="barVibe">Vibe-coded · AI-augmented build</span><span class="tag" data-i18n="barVibeTag">~ hours</span></div>
         <div class="track"><span class="fill"></span></div>
       </div>
     </div>
@@ -593,22 +636,22 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="about">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">01 — Profile</span>
-      <h2 class="section-title">Engineered for precision, built for analysis.</h2>
-      <p class="section-sub">A purpose-driven IT specialist blending London education with production-minded engineering — and an AI-augmented workflow that ships fast without losing rigor.</p>
+      <span class="eyebrow" data-i18n="p01Eyebrow">01 — Profile</span>
+      <h2 class="section-title" data-i18n="p01Title">Engineered for precision, built for analysis.</h2>
+      <p class="section-sub" data-i18n="p01Sub">A purpose-driven IT specialist blending London education with production-minded engineering — and an AI-augmented workflow that ships fast without losing rigor.</p>
     </div>
 
     <div class="profile-grid">
       <div class="glass profile-card reveal">
-        <h3>About Me</h3>
-        <p>I'm a goal-oriented IT specialist combining international study in London with practical, production-minded engineering. My focus sits at the intersection of <strong>data management</strong>, <strong>backend logic</strong> and <strong>clean front-end implementation</strong>.</p>
-        <p>What makes the blend unique: I pair that deep foundation with an AI-augmented workflow — designing the system, then using AI as an accelerator to deliver robust, well-documented software at speeds traditional row-by-row coding can't match.</p>
-        <p>Realistically, no CV gives a 100% guarantee — hiring always involves luck, timing and company fit. But an adaptive, high-velocity developer brings the exact practical solutions modern teams need.</p>
+        <h3 data-i18n="aboutH3">About Me</h3>
+        <p data-i18n="aboutP1">I'm a goal-oriented IT specialist combining international study in London with practical, production-minded engineering. My focus sits at the intersection of <strong>data management</strong>, <strong>backend logic</strong> and <strong>clean front-end implementation</strong>.</p>
+        <p data-i18n="aboutP2">What makes the blend unique: I pair that deep foundation with an AI-augmented workflow — designing the system, then using AI as an accelerator to deliver robust, well-documented software at speeds traditional row-by-row coding can't match.</p>
+        <p data-i18n="aboutP3">Realistically, no CV gives a 100% guarantee — hiring always involves luck, timing and company fit. But an adaptive, high-velocity developer brings the exact practical solutions modern teams need.</p>
         <div class="profile-tags">
-          <span>Data &amp; Automation</span>
-          <span>Backend Logic</span>
-          <span>Web Engineering</span>
-          <span>AI-Augmented Delivery</span>
+          <span data-i18n="tag1">Data &amp; Automation</span>
+          <span data-i18n="tag2">Backend Logic</span>
+          <span data-i18n="tag3">Web Engineering</span>
+          <span data-i18n="tag4">AI-Augmented Delivery</span>
         </div>
       </div>
 
@@ -616,40 +659,40 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="glass strength reveal" style="--lvl:94%">
           <span class="bar" aria-hidden="true"></span>
           <div class="st-top">
-            <h4>Analītiskā domāšana</h4>
+            <h4 data-i18n="s1t">Analytical Thinking</h4>
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span>
           </div>
-          <p>Multi-layered dataset processing (Excel, SQL) to spot automation loops and turn raw data into structured systems.</p>
+          <p data-i18n="s1d">Multi-layered dataset processing (Excel, SQL) to spot automation loops and turn raw data into structured systems.</p>
           <div class="meter"><i></i></div>
         </div>
 
         <div class="glass strength reveal" style="--lvl:90%">
           <span class="bar" aria-hidden="true"></span>
           <div class="st-top">
-            <h4>Starptautiska komunikācija</h4>
+            <h4 data-i18n="s2t">International Communication</h4>
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3Z"/></svg></span>
           </div>
-          <p>London-educated, professional English fluency, thriving in cross-cultural and multicultural team environments.</p>
+          <p data-i18n="s2d">London-educated, professional English fluency, thriving in cross-cultural and multicultural team environments.</p>
           <div class="meter"><i></i></div>
         </div>
 
         <div class="glass strength reveal" style="--lvl:92%">
           <span class="bar" aria-hidden="true"></span>
           <div class="st-top">
-            <h4>Tehniskā adaptācija</h4>
+            <h4 data-i18n="s3t">Technical Adaptation</h4>
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 4.6L19 9l-3.6 3.4L16.3 18 12 15.4 7.7 18l.9-5.6L5 9l4.8-1.4Z"/></svg></span>
           </div>
-          <p>Rapid prototyping — instantly adopting new syntaxes, libraries and logic paradigms to fit the project at hand.</p>
+          <p data-i18n="s3d">Rapid prototyping — instantly adopting new syntaxes, libraries and logic paradigms to fit the project at hand.</p>
           <div class="meter"><i></i></div>
         </div>
 
         <div class="glass strength reveal" style="--lvl:95%">
           <span class="bar" aria-hidden="true"></span>
           <div class="st-top">
-            <h4>Precizitāte un rūpība</h4>
+            <h4 data-i18n="s4t">Precision &amp; Diligence</h4>
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span>
           </div>
-          <p>Delivering highly-engineered technical documentation alongside the raw systems — precision in code and in writing.</p>
+          <p data-i18n="s4d">Delivering highly-engineered technical documentation alongside the raw systems — precision in code and in writing.</p>
           <div class="meter"><i></i></div>
         </div>
       </div>
@@ -657,22 +700,22 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 
     <div class="glass growth reveal">
       <div class="g-head">
-        <h3>Growth Focus</h3>
-        <span class="chip">Actively Developing</span>
+        <h3 data-i18n="growthH3">Growth Focus</h3>
+        <span class="chip" data-i18n="growthChip">Actively Developing</span>
       </div>
-      <p>Self-awareness drives improvement. These are areas I deliberately invest in — turning honest weak points into a sharper professional edge.</p>
+      <p data-i18n="growthIntro">Self-awareness drives improvement. These are areas I deliberately invest in — turning honest weak points into a sharper professional edge.</p>
       <div class="growth-grid">
         <div class="growth-item">
-          <h5><span class="num">01</span> Perfekcionisms</h5>
-          <p>Shifting focus from endless micro-optimizations into dynamic time-boxing — keeping the extreme eye for detail while reliably hitting strict deadlines.</p>
+          <h5><span class="num">01</span> <span data-i18n="g1t">Perfectionism</span></h5>
+          <p data-i18n="g1d">Shifting focus from endless micro-optimizations into dynamic time-boxing — keeping the extreme eye for detail while reliably hitting strict deadlines.</p>
         </div>
         <div class="growth-item">
-          <h5><span class="num">02</span> Backend Specialization</h5>
-          <p>Constantly evolving core PHP, JavaScript and database security architecture to deepen my server-side and backend developer arsenal.</p>
+          <h5><span class="num">02</span> <span data-i18n="g2t">Backend Specialization</span></h5>
+          <p data-i18n="g2d">Constantly evolving core PHP, JavaScript and database security architecture to deepen my server-side and backend developer arsenal.</p>
         </div>
         <div class="growth-item">
-          <h5><span class="num">03</span> Public Speaking</h5>
-          <p>Actively translating complex engineering concepts into confident, clear team presentations to large audiences.</p>
+          <h5><span class="num">03</span> <span data-i18n="g3t">Public Speaking</span></h5>
+          <p data-i18n="g3d">Actively translating complex engineering concepts into confident, clear team presentations to large audiences.</p>
         </div>
       </div>
     </div>
@@ -683,9 +726,9 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="experience">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">02 — Experience</span>
-      <h2 class="section-title">Professional experience.</h2>
-      <p class="section-sub">Real production work: maintaining core information systems, engineering data solutions and shipping measurable efficiency gains.</p>
+      <span class="eyebrow" data-i18n="e02Eyebrow">02 — Experience</span>
+      <h2 class="section-title" data-i18n="e02Title">Professional experience.</h2>
+      <p class="section-sub" data-i18n="e02Sub">Real production work: maintaining core information systems, engineering data solutions and shipping measurable efficiency gains.</p>
     </div>
 
     <div class="timeline">
@@ -694,23 +737,23 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="glass tl-card">
           <div class="tl-head">
             <div>
-              <div class="tl-role">IT Atbalsta Speciālists</div>
-              <div class="tl-company">Technology Company · Latvia</div>
+              <div class="tl-role" data-i18n="eRole">IT Atbalsta Speciālists</div>
+              <div class="tl-company" data-i18n="eCompany">Technology Company · Latvia</div>
             </div>
-            <span class="tl-date">Jan 2023 — Apr 2026</span>
+            <span class="tl-date" data-i18n="eDate">Jan 2023 — Apr 2026</span>
           </div>
 
           <div class="tl-metrics">
-            <div class="metric"><div class="big">+20%</div><div class="desc">Infrastructure productivity increase via custom scripts.</div></div>
-            <div class="metric"><div class="big">Audit</div><div class="desc">Maintained &amp; optimized enterprise database systems.</div></div>
-            <div class="metric"><div class="big">SQL</div><div class="desc">Custom query optimization, macros &amp; system reports.</div></div>
+            <div class="metric"><div class="big">+20%</div><div class="desc" data-i18n="eM1desc">Infrastructure productivity increase via custom scripts.</div></div>
+            <div class="metric"><div class="big" data-i18n="eM2big">Audit</div><div class="desc" data-i18n="eM2desc">Maintained &amp; optimized enterprise database systems.</div></div>
+            <div class="metric"><div class="big">SQL</div><div class="desc" data-i18n="eM3desc">Custom query optimization, macros &amp; system reports.</div></div>
           </div>
 
           <ul class="tl-list">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Developed and deployed custom data scripts, boosting system infrastructure productivity by 20% and streamlining optimization workflows.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Maintained, audited and optimized enterprise database systems using MS Access, MS Excel (Advanced Analytics) and custom SQL query optimization.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Authored clean technical documentation, instruction manuals and system reports using MS Word, and created digital assets and visuals on Canva and Adobe Photoshop.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Developed crisp front-end user interfaces (HTML, CSS, JavaScript) matching modern JavaScript benchmarks in VS Code, with backend logic in Python and foundational PHP.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="eb1">Developed and deployed custom data scripts, boosting system infrastructure productivity by 20% and streamlining optimization workflows.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="eb2">Maintained, audited and optimized enterprise database systems using MS Access, MS Excel (Advanced Analytics) and custom SQL query optimization.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="eb3">Authored clean technical documentation, instruction manuals and system reports using MS Word, and created digital assets and visuals on Canva and Adobe Photoshop.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="eb4">Developed crisp front-end user interfaces (HTML, CSS, JavaScript) matching modern JavaScript benchmarks in VS Code, with backend logic in Python and foundational PHP.</span></li>
           </ul>
         </div>
       </div>
@@ -722,9 +765,9 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="education">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">03 — Education</span>
-      <h2 class="section-title">International qualifications.</h2>
-      <p class="section-sub">Two London-based diplomas in information &amp; digital technologies, built on a Latvian secondary education.</p>
+      <span class="eyebrow" data-i18n="ed03Eyebrow">03 — Education</span>
+      <h2 class="section-title" data-i18n="ed03Title">International qualifications.</h2>
+      <p class="section-sub" data-i18n="ed03Sub">Two London-based diplomas in information &amp; digital technologies, built on a Latvian secondary education.</p>
     </div>
 
     <div class="edu-grid">
@@ -734,9 +777,9 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
           <span class="edu-years">2025 — 2026</span>
         </div>
         <div class="edu-school">UKversity</div>
-        <div class="edu-loc">London, UK</div>
+        <div class="edu-loc" data-i18n="edu1Loc">London, UK</div>
         <p class="edu-degree">ATHE Level 3 Diploma in Information and Digital Technologies.</p>
-        <span class="edu-grade"><span class="gd"></span> Graduated with Merit / Ar atzinību</span>
+        <span class="edu-grade"><span class="gd"></span> <span data-i18n="edu1Grade">Graduated with Merit / Ar atzinību</span></span>
       </div>
 
       <div class="glass edu-card reveal">
@@ -745,9 +788,9 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
           <span class="edu-years">2023 — 2025</span>
         </div>
         <div class="edu-school">South Bank Colleges</div>
-        <div class="edu-loc">London, UK</div>
+        <div class="edu-loc" data-i18n="edu2Loc">London, UK</div>
         <p class="edu-degree">BTEC Level 2 Information and Technology.</p>
-        <span class="edu-grade"><span class="gd"></span> Pass / Sekmīgi absolvēts</span>
+        <span class="edu-grade"><span class="gd"></span> <span data-i18n="edu2Grade">Pass / Sekmīgi absolvēts</span></span>
       </div>
 
       <div class="glass edu-card reveal">
@@ -756,9 +799,9 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
           <span class="edu-years">2011 — 2022</span>
         </div>
         <div class="edu-school">Rīgas Strazdumuižas vidusskola</div>
-        <div class="edu-loc">Attīstības centrs · Latvia</div>
-        <p class="edu-degree">General secondary education (Vispārējā vidējā izglītība).</p>
-        <span class="edu-grade"><span class="gd"></span> Math 5 · English 6 · Latvian 4</span>
+        <div class="edu-loc" data-i18n="edu3Loc">Attīstības centrs · Latvia</div>
+        <p class="edu-degree" data-i18n="edu3Deg">General secondary education (Vispārējā vidējā izglītība).</p>
+        <span class="edu-grade"><span class="gd"></span> <span data-i18n="edu3Grade">Math 5 · English 6 · Latvian 4</span></span>
       </div>
     </div>
   </div>
@@ -768,16 +811,16 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="skills">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">04 — Technical Stack</span>
-      <h2 class="section-title">Technical stack dashboard.</h2>
-      <p class="section-sub">A categorized toolkit spanning languages, frameworks, databases, architecture tools and creative multimedia — the full production stack.</p>
+      <span class="eyebrow" data-i18n="s04Eyebrow">04 — Technical Stack</span>
+      <h2 class="section-title" data-i18n="s04Title">Technical stack dashboard.</h2>
+      <p class="section-sub" data-i18n="s04Sub">A categorized toolkit spanning languages, frameworks, databases, architecture tools and creative multimedia — the full production stack.</p>
     </div>
 
     <div class="skills-grid">
       <div class="glass skill-cat reveal">
         <div class="cat-head">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></span>
-          <h3>Languages &amp; Frameworks</h3>
+          <h3 data-i18n="cat1">Languages &amp; Frameworks</h3>
           <span class="n">06</span>
         </div>
         <div class="badges">
@@ -793,14 +836,14 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
       <div class="glass skill-cat reveal">
         <div class="cat-head">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>
-          <h3>Databases &amp; Architecture</h3>
+          <h3 data-i18n="cat2">Databases &amp; Architecture</h3>
           <span class="n">05</span>
         </div>
         <div class="badges">
           <span class="badge">MS SQL Server</span>
           <span class="badge">SQLite</span>
           <span class="badge">MS Access</span>
-          <span class="badge">MS Excel · Advanced Analytics</span>
+          <span class="badge" data-i18n="bExcel">MS Excel · Advanced Analytics</span>
           <span class="badge">VS Code</span>
         </div>
       </div>
@@ -808,7 +851,7 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
       <div class="glass skill-cat reveal">
         <div class="cat-head">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.7 4.3L18 8l-4.3 1.7L12 14l-1.7-4.3L6 8l4.3-1.7L12 2Z"/><path d="M19 14l.9 2.3L22 17l-2.1.7L19 20l-.9-2.3L16 17l2.1-.7L19 14Z"/></svg></span>
-          <h3>AI Orchestration &amp; Prompting</h3>
+          <h3 data-i18n="cat3">AI Orchestration &amp; Prompting</h3>
           <span class="n">06</span>
         </div>
         <div class="badges">
@@ -816,21 +859,21 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
           <span class="badge">OpenAI GPT-4o</span>
           <span class="badge">Cursor OS</span>
           <span class="badge">GitHub Copilot</span>
-          <span class="badge">Chain-of-Thought Prompting</span>
-          <span class="badge">Context Management</span>
+          <span class="badge" data-i18n="bCoT">Chain-of-Thought Prompting</span>
+          <span class="badge" data-i18n="bCtx">Context Management</span>
         </div>
       </div>
 
       <div class="glass skill-cat reveal">
         <div class="cat-head">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></svg></span>
-          <h3>Design &amp; Multimedia</h3>
+          <h3 data-i18n="cat4">Design &amp; Multimedia</h3>
           <span class="n">04</span>
         </div>
         <div class="badges">
           <span class="badge">Adobe Photoshop</span>
-          <span class="badge">Video Montage / Editing</span>
-          <span class="badge">UI/UX Prototyping</span>
+          <span class="badge" data-i18n="bVideo">Video Montage / Editing</span>
+          <span class="badge" data-i18n="bUIUX">UI/UX Prototyping</span>
           <span class="badge">Canva Pro</span>
         </div>
       </div>
@@ -842,18 +885,18 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="projects">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">05 — Projects</span>
-      <h2 class="section-title">Interactive engineering builds.</h2>
-      <p class="section-sub">Six production builds spanning data pipelines, automation, backend portals, analytics and creative media — each coding build ships a live mock-terminal. Filter by category.</p>
+      <span class="eyebrow" data-i18n="pr05Eyebrow">05 — Projects</span>
+      <h2 class="section-title" data-i18n="pr05Title">Interactive engineering builds.</h2>
+      <p class="section-sub" data-i18n="pr05Sub">Six production builds spanning data pipelines, automation, backend portals, analytics and creative media — each coding build ships a live mock-terminal. Filter by category.</p>
     </div>
 
     <div class="proj-filter reveal" id="projFilter" role="tablist" aria-label="Filter projects by category">
-      <button class="active" data-filter="all">All</button>
-      <button data-filter="data-analytics">Data Analytics</button>
-      <button data-filter="python">Python</button>
-      <button data-filter="php">PHP</button>
-      <button data-filter="frontend-backend">Frontend/Backend</button>
-      <button data-filter="design-montage">Design &amp; Montage</button>
+      <button class="active" data-filter="all" data-i18n="fAll">All</button>
+      <button data-filter="data-analytics" data-i18n="fData">Data Analytics</button>
+      <button data-filter="python" data-i18n="fPy">Python</button>
+      <button data-filter="php" data-i18n="fPhp">PHP</button>
+      <button data-filter="frontend-backend" data-i18n="fFb">Frontend/Backend</button>
+      <button data-filter="design-montage" data-i18n="fDesign">Design &amp; Montage</button>
     </div>
 
     <div class="projects" id="projects-list">
@@ -863,8 +906,8 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 01</span></div>
           <h3 class="proj-title"><span class="q">"</span>AuraDB<span class="q">"</span></h3>
-          <p class="proj-concept">Automated Inventory &amp; Relational Data Pipeline</p>
-          <p class="proj-desc">An enterprise parsing array built to map, split and normalize chaotic raw logistics files into organized relational schemas. Python automation scripts translate flat CSV data into complex relational structures inside an SQLite database, with custom SQL indexing that optimized data-retrieval times across large tables by 3.4x.</p>
+          <p class="proj-concept" data-i18n="prj1Concept">Automated Inventory &amp; Relational Data Pipeline</p>
+          <p class="proj-desc" data-i18n="prj1Desc">An enterprise parsing array built to map, split and normalize chaotic raw logistics files into organized relational schemas. Python automation scripts translate flat CSV data into complex relational structures inside an SQLite database, with custom SQL indexing that optimized data-retrieval times across large tables by 3.4x.</p>
           <div class="proj-tagrow"><span class="t">Python</span><span class="t">SQL</span><span class="t">SQLite</span></div>
           <div class="proj-stack"><span>pandas</span><span>sqlite3</span><span>CSV parsing</span><span>SQL indexing</span><span>logging</span></div>
         </div>
@@ -881,15 +924,15 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 02</span></div>
           <h3 class="proj-title"><span class="q">"</span>CorePulse<span class="q">"</span></h3>
-          <p class="proj-concept">Internal Corporate ERP &amp; Analytics Portal</p>
-          <p class="proj-desc">A high-speed, secure web engine monitoring processing loads, state monitoring and the automated generation of detailed document reports, driven by a PHP REST API. A responsive modular front-end (CSS Grid, dynamic JS UI updates) manages server-side state and system logs.</p>
+          <p class="proj-concept" data-i18n="prj2Concept">Internal Corporate ERP &amp; Analytics Portal</p>
+          <p class="proj-desc" data-i18n="prj2Desc">A high-speed, secure web engine monitoring processing loads, state monitoring and the automated generation of detailed document reports, driven by a PHP REST API. A responsive modular front-end (CSS Grid, dynamic JS UI updates) manages server-side state and system logs.</p>
           <div class="proj-tagrow"><span class="t">PHP</span><span class="t">Frontend/Backend</span><span class="t">CSS Grid</span></div>
           <div class="proj-stack"><span>PHP REST API</span><span>PDO</span><span>MS SQL</span><span>Vanilla JS</span><span>PDF reports</span></div>
         </div>
         <div class="proj-visual">
           <div class="terminal">
             <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">corepulse — server.log</span></div>
-<div class="term-body"><span class="c-dim">[BOOT]</span> Starting CorePulse ERP services...
+<div class="term-body" data-i18n="term2"><span class="c-dim">[BOOT]</span> Starting CorePulse ERP services...
 <span class="c-live">LIVE</span> <span class="c-dim">|</span> <span class="c-num">98.6%</span> Uptime <span class="c-dim">|</span> <span class="c-num">1,284</span> Records <span class="c-dim">|</span> <span class="c-num">42</span> Reports Generated
 <span class="c-dim">[System Log]:</span> PHP PDO connected securely to MS SQL database. <span class="c-ok">OK</span>
 <span class="c-dim">[REPORT]</span> Generating monthly_summary.pdf ... <span class="c-ok">DONE</span></div>
@@ -902,15 +945,15 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 03</span></div>
           <h3 class="proj-title"><span class="q">"</span>OmniForm<span class="q">"</span></h3>
-          <p class="proj-concept">Dynamic Web Survey &amp; Data Capture Engine</p>
-          <p class="proj-desc">A client onboarding module processing real-time Regex matching, validation data arrays and fluid client-side DOM mutations, interacting with an SQL backend database. Built in native vanilla JavaScript with validation regex arrays and dynamic DOM rendering.</p>
+          <p class="proj-concept" data-i18n="prj3Concept">Dynamic Web Survey &amp; Data Capture Engine</p>
+          <p class="proj-desc" data-i18n="prj3Desc">A client onboarding module processing real-time Regex matching, validation data arrays and fluid client-side DOM mutations, interacting with an SQL backend database. Built in native vanilla JavaScript with validation regex arrays and dynamic DOM rendering.</p>
           <div class="proj-tagrow"><span class="t">JavaScript</span><span class="t">Regex</span><span class="t">SQL Schema</span></div>
           <div class="proj-stack"><span>Vanilla JS</span><span>Regex validation</span><span>DOM rendering</span><span>JSON Payloads</span><span>Relational schema</span></div>
         </div>
         <div class="proj-visual">
           <div class="terminal">
             <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">omniform — validate.js</span></div>
-<div class="term-body"><span class="c-prompt">$</span> node validate.js --payload client.json
+<div class="term-body" data-i18n="term3"><span class="c-prompt">$</span> node validate.js --payload client.json
 <span class="c-dim">[VALID]</span> Regex match: email, phone, postal &rarr; <span class="c-ok">PASS</span>
 <span class="c-dim">[STORE]</span> Writing record to SQL backend...
 <span class="c-dim">{</span>
@@ -928,15 +971,15 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 04</span></div>
           <h3 class="proj-title"><span class="q">"</span>InSight<span class="q">"</span></h3>
-          <p class="proj-concept">Enterprise Advanced Excel Data Analytics Model</p>
-          <p class="proj-desc">A deep-dive data analysis model designed for parsing massive financial tables. Utilizes advanced Pivot tracking, complex multi-conditional lookups and SQL database selections to spot operational bottlenecks — cross-referencing 50,000+ data rows with SQL Server tables to automatically generate clean management dashboards with zero latency.</p>
+          <p class="proj-concept" data-i18n="prj4Concept">Enterprise Advanced Excel Data Analytics Model</p>
+          <p class="proj-desc" data-i18n="prj4Desc">A deep-dive data analysis model designed for parsing massive financial tables. Utilizes advanced Pivot tracking, complex multi-conditional lookups and SQL database selections to spot operational bottlenecks — cross-referencing 50,000+ data rows with SQL Server tables to automatically generate clean management dashboards with zero latency.</p>
           <div class="proj-tagrow"><span class="t">Data Analytics</span><span class="t">MS Excel</span><span class="t">SQL Server</span></div>
           <div class="proj-stack"><span>PivotTables</span><span>XLOOKUP / INDEX-MATCH</span><span>Power Query</span><span>SQL Server</span><span>Dashboards</span></div>
         </div>
         <div class="proj-visual">
           <div class="terminal">
             <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">insight — analytics.xlsm</span></div>
-<div class="term-body"><span class="c-dim">[Excel Engine]:</span> Compiling Data Sheets...
+<div class="term-body" data-i18n="term4"><span class="c-dim">[Excel Engine]:</span> Compiling Data Sheets...
 <span class="c-dim">[Analysis]:</span> Cross-referencing <span class="c-num">50,000+</span> data rows with SQL Server tables.
 <span class="c-dim">[Result]:</span> Automated dashboard generated with zero latency. <span class="c-ok">OK</span></div>
           </div>
@@ -948,15 +991,15 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 05</span></div>
           <h3 class="proj-title"><span class="q">"</span>QuantBot<span class="q">"</span></h3>
-          <p class="proj-concept">Automated Python Web Scraper &amp; Task Scheduler</p>
-          <p class="proj-desc">A custom automated Python script running background tracking — fetching technical data feeds from scattered web nodes, parsing JSON structures and compiling them into pristine weekly data files. Built to bypass manual scraping routines, reducing data-compilation times from weeks to focused hours.</p>
+          <p class="proj-concept" data-i18n="prj5Concept">Automated Python Web Scraper &amp; Task Scheduler</p>
+          <p class="proj-desc" data-i18n="prj5Desc">A custom automated Python script running background tracking — fetching technical data feeds from scattered web nodes, parsing JSON structures and compiling them into pristine weekly data files. Built to bypass manual scraping routines, reducing data-compilation times from weeks to focused hours.</p>
           <div class="proj-tagrow"><span class="t">Python</span><span class="t">Automation</span><span class="t">JSON</span></div>
           <div class="proj-stack"><span>requests</span><span>BeautifulSoup</span><span>schedule</span><span>JSON parsing</span><span>cron</span></div>
         </div>
         <div class="proj-visual">
           <div class="terminal">
             <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">quantbot — scheduler.py</span></div>
-<div class="term-body"><span class="c-prompt">$</span> python quantbot.py --run-scheduler
+<div class="term-body" data-i18n="term5"><span class="c-prompt">$</span> python quantbot.py --run-scheduler
 <span class="c-dim">[Fetch]</span> Querying targets... Status <span class="c-num">200</span> <span class="c-ok">OK</span>
 <span class="c-dim">[Data ]</span> Extracted JSON schema -&gt; Sanitizing fields...
 <span class="c-dim">[File ]</span> Local database storage updated successfully.</div>
@@ -969,8 +1012,8 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         <div class="proj-info">
           <div class="proj-tagrow"><span class="proj-index">PROJECT 06</span></div>
           <h3 class="proj-title"><span class="q">"</span>VividMedia<span class="q">"</span></h3>
-          <p class="proj-concept">Premium Brand Identity &amp; Promotional Video Suite</p>
-          <p class="proj-desc">A personal design portfolio showcase: high-fidelity web prototypes engineered in Canva, visual design manipulations compiled inside Adobe Photoshop, and cinematic promotional short-form video montages edited to precise technical audio cues.</p>
+          <p class="proj-concept" data-i18n="prj6Concept">Premium Brand Identity &amp; Promotional Video Suite</p>
+          <p class="proj-desc" data-i18n="prj6Desc">A personal design portfolio showcase: high-fidelity web prototypes engineered in Canva, visual design manipulations compiled inside Adobe Photoshop, and cinematic promotional short-form video montages edited to precise technical audio cues.</p>
           <div class="proj-tagrow"><span class="t">Design</span><span class="t">Montage</span><span class="t">UI/UX</span></div>
           <div class="proj-stack"><span>Adobe Photoshop</span><span>Video Editing</span><span>UI/UX Prototyping</span><span>Canva Pro</span><span>Audio sync</span></div>
         </div>
@@ -980,10 +1023,10 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
               <div class="media-top"><span class="m-title">VividMedia · Editor</span><span class="m-meta">1920×1080 · 60fps</span></div>
               <div class="media-stage">
                 <div class="m-layers">
-                  <span class="ml">Layer · Logo Mark</span>
-                  <span class="ml">Layer · Typography</span>
-                  <span class="ml">Mask · Gradient Glow</span>
-                  <span class="ml">Adjust · Curves</span>
+                  <span class="ml" data-i18n="ml1">Layer · Logo Mark</span>
+                  <span class="ml" data-i18n="ml2">Layer · Typography</span>
+                  <span class="ml" data-i18n="ml3">Mask · Gradient Glow</span>
+                  <span class="ml" data-i18n="ml4">Adjust · Curves</span>
                 </div>
                 <div class="m-canvas"><div class="m-frame">PREVIEW</div></div>
               </div>
@@ -996,7 +1039,7 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
             </div>
             <div class="terminal term-mini">
               <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span class="title">vividmedia — render.log</span></div>
-<div class="term-body"><span class="c-dim">VividMedia · Editor</span> <span class="c-dim">|</span> <span class="c-num">1920×1080</span> · <span class="c-num">60fps</span>
+<div class="term-body" data-i18n="term6"><span class="c-dim">VividMedia · Editor</span> <span class="c-dim">|</span> <span class="c-num">1920×1080</span> · <span class="c-num">60fps</span>
 <span class="c-dim">[Track 1]</span> Layer · Logo Mark <span class="c-dim">//</span> <span class="c-dim">[Track 2]</span> Layer · Typography
 <span class="c-dim">[Audio]</span> Audio Sync Status: <span class="c-ok">Locked to Keyframes</span></div>
             </div>
@@ -1005,7 +1048,7 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
       </article>
 
     </div>
-    <p class="form-status" id="projEmpty" style="display:none">// No projects match this category filter.</p>
+    <p class="form-status" id="projEmpty" style="display:none" data-i18n="projEmpty">// No projects match this category filter.</p>
   </div>
 </section>
 
@@ -1013,52 +1056,54 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <section id="contact">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">06 — Contact</span>
-      <h2 class="section-title">Let's build something precise.</h2>
-      <p class="section-sub">Open to technical roles, collaboration and AI-augmented backend engineering challenges. Reach out directly or drop a message.</p>
+      <span class="eyebrow" data-i18n="c06Eyebrow">06 — Contact</span>
+      <h2 class="section-title" data-i18n="c06Title">Let's build something precise.</h2>
+      <p class="section-sub" data-i18n="c06Sub">Open to technical roles, collaboration and AI-augmented backend engineering challenges. Reach out directly or drop a message.</p>
     </div>
 
     <div class="contact-grid">
       <div class="glass contact-info reveal">
-        <h3>Get in touch</h3>
-        <p>Based in Latvia and available for remote &amp; on-site work across the EU and UK.</p>
+        <h3 data-i18n="ciH3">Get in touch</h3>
+        <p data-i18n="ciIntro">Based in Latvia and available for remote &amp; on-site work across the EU and UK.</p>
         <div class="contact-list">
           <a class="contact-row" href="https://maps.google.com/?q=Ogre,+Latvia" target="_blank" rel="noopener">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
-            <span><span class="k">Location</span><span class="v">Ogre, Latvia · LV-5001</span></span>
+            <span><span class="k" data-i18n="lblLoc">Location</span><span class="v" data-i18n="locVal">Ogre, Latvia · LV-5001</span></span>
           </a>
           <a class="contact-row" href="mailto:jiyotaka352199@gmail.com">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
-            <span><span class="k">Email</span><span class="v">jiyotaka352199@gmail.com</span></span>
+            <span><span class="k" data-i18n="lblEmail">Email</span><span class="v">jiyotaka352199@gmail.com</span></span>
           </a>
           <a class="contact-row" href="tel:+37129165331">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></span>
-            <span><span class="k">Phone</span><span class="v">+371 29165331</span></span>
+            <span><span class="k" data-i18n="lblPhone">Phone</span><span class="v">+371 29165331</span></span>
           </a>
         </div>
       </div>
 
-      <form class="glass contact-form reveal" id="contactForm" novalidate>
+      <form class="glass contact-form reveal" id="contactForm" action="https://formspree.io/f/mqevapqb" method="POST" novalidate>
         <div class="form-row">
           <div class="field-group">
-            <label for="cf-name">Name</label>
-            <input id="cf-name" name="name" type="text" placeholder="Your name" required />
+            <label for="cf-name">Имя</label>
+            <input id="cf-name" name="name" type="text" placeholder="Ваше имя" required />
           </div>
           <div class="field-group">
-            <label for="cf-email">Email</label>
+            <label for="cf-email">Эл. почта</label>
             <input id="cf-email" name="email" type="email" placeholder="you@email.com" required />
           </div>
         </div>
         <div class="field-group">
-          <label for="cf-subject">Subject</label>
-          <input id="cf-subject" name="subject" type="text" placeholder="Project, role or collaboration" />
+          <label for="cf-subject">Тема</label>
+          <input id="cf-subject" name="subject" type="text" placeholder="Проект, должность или сотрудничество" />
         </div>
         <div class="field-group">
-          <label for="cf-message">Message</label>
-          <textarea id="cf-message" name="message" placeholder="Tell me about your project or opportunity…" required></textarea>
+          <label for="cf-message">Сообщение</label>
+          <textarea id="cf-message" name="message" placeholder="Расскажите о проекте или возможности…" required></textarea>
         </div>
+        <!-- Spam honeypot — Formspree silently drops submissions where this is filled -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:0;height:0;opacity:0" />
         <button type="submit" class="btn btn-primary form-submit">
-          Send Message
+          Отправить
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>
         </button>
         <p class="form-status" id="formStatus" aria-live="polite"></p>
@@ -1071,14 +1116,298 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
 <!-- ===================== FOOTER ===================== -->
 <footer>
   <div class="wrap footer-inner">
-    <span class="brand"><span class="dot" aria-hidden="true"></span> KRISTOFERS AVOTIŅŠ <span class="sep">//</span> <span class="role">VIBE CODER</span></span>
-    <span class="copy">© <span id="year"></span> Kristofers Avotiņš — Architected with vanilla code &amp; AI velocity.</span>
-    <a href="#hero" class="to-top">Back to top
+    <span class="brand"><span class="dot" aria-hidden="true"></span> KRISTOFERS AVOTIŅŠ <span class="sep">//</span> <span class="role" data-i18n="footRole">VIBE CODER</span></span>
+    <span class="copy">© <span id="year"></span> Kristofers Avotiņš — <span data-i18n="footTagline">Architected with vanilla code &amp; AI velocity.</span></span>
+    <a href="#hero" class="to-top"><span data-i18n="toTop">Back to top</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
     </a>
   </div>
 </footer>
 
+<script>
+/* ============================ i18n DICTIONARY ============================ */
+var I18N = {};
+I18N.en = {
+  brandRole:'IT SPECIALIST',
+  navAbout:'About', navExp:'Experience', navSkills:'Skills', navProjects:'Projects', navContact:'Contact',
+  heroBadge:'Available for new technical challenges // Status: Active 2026',
+  heroHook:'Results-driven IT Specialist and passionate vibe coder combining international training with deep technical analysis to engineer high-efficiency digital infrastructure. Expert in <strong>data management, backend logic, and clean web engineering.</strong> Proven track record of boosting enterprise productivity by 20% through creative problem-solving and positive team energy.',
+  cta1:'View Live Projects', cta2:'Download CV',
+  m1:'Productivity Gain · Enterprise', m2:'Years Experience', m3:'London Diplomas', m4:'Production Projects',
+  roles:['IT Specialist','Full-Stack Developer','Vibe Coder'],
+  vibeEyebrow:'// The Paradigm',
+  vibeH2:'I’m a <span class="hl">Vibe Coder.</span> Deep foundations, <br>powered by AI-augmented velocity.',
+  vibeLead:'My foundations are real: Python, PHP, SQL and two London diplomas. A <strong style="color:var(--fg)">Vibe Coder</strong> is a creative, intuitive, full-stack and versatile developer who brings great energy, rapid prototyping and highly practical solutions to a team. I design the logic, understand every line of the output, and use AI purely as an accelerator to ship robust software at lightning speed — compressing weeks of traditional manual typing into focused hours of high-leverage engineering.',
+  vibeC1t:'AI-Augmented Velocity',
+  vibeC1d:'I command AI engines to materialize architecture, boilerplate and integrations instantly — compressing weeks of manual typing into focused hours of high-leverage engineering.',
+  vibeC2t:'Architect, Not Typist',
+  vibeC2d:'I design the system logic first — data flow, schemas, state and security. AI handles the keystrokes; the structure, decisions and trade-offs are entirely mine.',
+  vibeC3t:'Total Code Understanding',
+  vibeC3d:'Nothing ships as a black box. I read, audit and refine every generated line so each system stays maintainable, debuggable and genuinely owned — not just pasted.',
+  velTitle:'Weeks → Hours', velNote:'// relative delivery time, identical scope',
+  barTrad:'Traditional row-by-row build', barTradTag:'~ weeks',
+  barVibe:'Vibe-coded · AI-augmented build', barVibeTag:'~ hours',
+  p01Eyebrow:'01 — Profile', p01Title:'Engineered for precision, built for analysis.',
+  p01Sub:'A purpose-driven IT specialist blending London education with production-minded engineering — and an AI-augmented workflow that ships fast without losing rigor.',
+  aboutH3:'About Me',
+  aboutP1:'I’m a goal-oriented IT specialist combining international study in London with practical, production-minded engineering. My focus sits at the intersection of <strong>data management</strong>, <strong>backend logic</strong> and <strong>clean front-end implementation</strong>.',
+  aboutP2:'What makes the blend unique: I pair that deep foundation with an AI-augmented workflow — designing the system, then using AI as an accelerator to deliver robust, well-documented software at speeds traditional row-by-row coding can’t match.',
+  aboutP3:'Realistically, no CV gives a 100% guarantee — hiring always involves luck, timing and company fit. But an adaptive, high-velocity developer brings the exact practical solutions modern teams need.',
+  tag1:'Data &amp; Automation', tag2:'Backend Logic', tag3:'Web Engineering', tag4:'AI-Augmented Delivery',
+  s1t:'Analytical Thinking', s1d:'Multi-layered dataset processing (Excel, SQL) to spot automation loops and turn raw data into structured systems.',
+  s2t:'International Communication', s2d:'London-educated, professional English fluency, thriving in cross-cultural and multicultural team environments.',
+  s3t:'Technical Adaptation', s3d:'Rapid prototyping — instantly adopting new syntaxes, libraries and logic paradigms to fit the project at hand.',
+  s4t:'Precision &amp; Diligence', s4d:'Delivering highly-engineered technical documentation alongside the raw systems — precision in code and in writing.',
+  growthH3:'Growth Focus', growthChip:'Actively Developing',
+  growthIntro:'Self-awareness drives improvement. These are areas I deliberately invest in — turning honest weak points into a sharper professional edge.',
+  g1t:'Perfectionism', g1d:'Shifting focus from endless micro-optimizations into dynamic time-boxing — keeping the extreme eye for detail while reliably hitting strict deadlines.',
+  g2t:'Backend Specialization', g2d:'Constantly evolving core PHP, JavaScript and database security architecture to deepen my server-side and backend developer arsenal.',
+  g3t:'Public Speaking', g3d:'Actively translating complex engineering concepts into confident, clear team presentations to large audiences.',
+  e02Eyebrow:'02 — Experience', e02Title:'Professional experience.',
+  e02Sub:'Real production work: maintaining core information systems, engineering data solutions and shipping measurable efficiency gains.',
+  eRole:'IT Support Specialist', eCompany:'Technology Company · Latvia', eDate:'Jan 2023 — Apr 2026',
+  eM1desc:'Infrastructure productivity increase via custom scripts.', eM2big:'Audit', eM2desc:'Maintained &amp; optimized enterprise database systems.', eM3desc:'Custom query optimization, macros &amp; system reports.',
+  eb1:'Developed and deployed custom data scripts, boosting system infrastructure productivity by 20% and streamlining optimization workflows.',
+  eb2:'Maintained, audited and optimized enterprise database systems using MS Access, MS Excel (Advanced Analytics) and custom SQL query optimization.',
+  eb3:'Authored clean technical documentation, instruction manuals and system reports using MS Word, and created digital assets and visuals on Canva and Adobe Photoshop.',
+  eb4:'Developed crisp front-end user interfaces (HTML, CSS, JavaScript) matching modern JavaScript benchmarks in VS Code, with backend logic in Python and foundational PHP.',
+  ed03Eyebrow:'03 — Education', ed03Title:'International qualifications.',
+  ed03Sub:'Two London-based diplomas in information &amp; digital technologies, built on a Latvian secondary education.',
+  edu1Loc:'London, UK', edu1Grade:'Graduated with Merit / Ar atzinību',
+  edu2Loc:'London, UK', edu2Grade:'Pass / Sekmīgi absolvēts',
+  edu3Loc:'Attīstības centrs · Latvia', edu3Deg:'General secondary education (Vispārējā vidējā izglītība).', edu3Grade:'Math 5 · English 6 · Latvian 4',
+  s04Eyebrow:'04 — Technical Stack', s04Title:'Technical stack dashboard.',
+  s04Sub:'A categorized toolkit spanning languages, frameworks, databases, architecture tools and creative multimedia — the full production stack.',
+  cat1:'Languages &amp; Frameworks', cat2:'Databases &amp; Architecture', cat3:'AI Orchestration &amp; Prompting', cat4:'Design &amp; Multimedia',
+  bExcel:'MS Excel · Advanced Analytics', bCoT:'Chain-of-Thought Prompting', bCtx:'Context Management', bVideo:'Video Montage / Editing', bUIUX:'UI/UX Prototyping',
+  pr05Eyebrow:'05 — Projects', pr05Title:'Interactive engineering builds.',
+  pr05Sub:'Six production builds spanning data pipelines, automation, backend portals, analytics and creative media — each coding build ships a live mock-terminal. Filter by category.',
+  fAll:'All', fData:'Data Analytics', fPy:'Python', fPhp:'PHP', fFb:'Frontend/Backend', fDesign:'Design &amp; Montage',
+  prj1Concept:'Automated Inventory &amp; Relational Data Pipeline',
+  prj1Desc:'An enterprise parsing array built to map, split and normalize chaotic raw logistics files into organized relational schemas. Python automation scripts translate flat CSV data into complex relational structures inside an SQLite database, with custom SQL indexing that optimized data-retrieval times across large tables by 3.4x.',
+  prj2Concept:'Internal Corporate ERP &amp; Analytics Portal',
+  prj2Desc:'A high-speed, secure web engine monitoring processing loads, state monitoring and the automated generation of detailed document reports, driven by a PHP REST API. A responsive modular front-end (CSS Grid, dynamic JS UI updates) manages server-side state and system logs.',
+  prj3Concept:'Dynamic Web Survey &amp; Data Capture Engine',
+  prj3Desc:'A client onboarding module processing real-time Regex matching, validation data arrays and fluid client-side DOM mutations, interacting with an SQL backend database. Built in native vanilla JavaScript with validation regex arrays and dynamic DOM rendering.',
+  prj4Concept:'Enterprise Advanced Excel Data Analytics Model',
+  prj4Desc:'A deep-dive data analysis model designed for parsing massive financial tables. Utilizes advanced Pivot tracking, complex multi-conditional lookups and SQL database selections to spot operational bottlenecks — cross-referencing 50,000+ data rows with SQL Server tables to automatically generate clean management dashboards with zero latency.',
+  prj5Concept:'Automated Python Web Scraper &amp; Task Scheduler',
+  prj5Desc:'A custom automated Python script running background tracking — fetching technical data feeds from scattered web nodes, parsing JSON structures and compiling them into pristine weekly data files. Built to bypass manual scraping routines, reducing data-compilation times from weeks to focused hours.',
+  prj6Concept:'Premium Brand Identity &amp; Promotional Video Suite',
+  prj6Desc:'A personal design portfolio showcase: high-fidelity web prototypes engineered in Canva, visual design manipulations compiled inside Adobe Photoshop, and cinematic promotional short-form video montages edited to precise technical audio cues.',
+  ml1:'Layer · Logo Mark', ml2:'Layer · Typography', ml3:'Mask · Gradient Glow', ml4:'Adjust · Curves',
+  projEmpty:'// No projects match this category filter.',
+  c06Eyebrow:'06 — Contact', c06Title:'Let’s build something precise.',
+  c06Sub:'Open to technical roles, collaboration and AI-augmented backend engineering challenges. Reach out directly or drop a message.',
+  ciH3:'Get in touch', ciIntro:'Based in Latvia and available for remote &amp; on-site work across the EU and UK.',
+  lblLoc:'Location', locVal:'Ogre, Latvia · LV-5001', lblEmail:'Email', lblPhone:'Phone',
+  fName:'Name', fNamePh:'Your name', fEmail:'Email', fEmailPh:'you@email.com', fSubject:'Subject', fSubjectPh:'Project, role or collaboration', fMessage:'Message', fMessagePh:'Tell me about your project or opportunity…', fSend:'Send Message',
+  stIncomplete:'// Please complete name, email and message.', stEmail:'// That email address looks invalid.', stOpening:'// Message validated — opening your mail client…', stThanksA:'// Thanks, ', stThanksB:'. If your client didn’t open, email jiyotaka352199@gmail.com directly.',
+  footRole:'VIBE CODER', footTagline:'Architected with vanilla code &amp; AI velocity.', toTop:'Back to top',
+  auraLines:[
+    '<span class="c-prompt">$</span> python pipeline.py --source logistics_q1.csv',
+    '<span class="c-dim">[INFO]</span> Initializing AuraDB pipeline...',
+    '<span class="c-dim">[INFO]</span> Parsing file <span class="c-str">logistics_q1.csv</span> · normalizing schema',
+    '<span class="c-dim">[INFO]</span> Mapping &rarr; <span class="c-key">inventory</span>, <span class="c-key">suppliers</span>, <span class="c-key">orders</span>',
+    '<span class="c-dim">[SQL ]</span> CREATE INDEX idx_sku ON inventory(sku);',
+    '<span class="c-dim">[INFO]</span> Parsing file... <span class="c-num">200</span> rows indexed. <span class="c-ok">OK</span>',
+    '<span class="c-dim">[DONE]</span> Pipeline complete · retrieval optimized <span class="c-num">3.4x</span>'
+  ],
+  term2:'<span class="c-dim">[BOOT]</span> Starting CorePulse ERP services...\n<span class="c-live">LIVE</span> <span class="c-dim">|</span> <span class="c-num">98.6%</span> Uptime <span class="c-dim">|</span> <span class="c-num">1,284</span> Records <span class="c-dim">|</span> <span class="c-num">42</span> Reports Generated\n<span class="c-dim">[System Log]:</span> PHP PDO connected securely to MS SQL database. <span class="c-ok">OK</span>\n<span class="c-dim">[REPORT]</span> Generating monthly_summary.pdf ... <span class="c-ok">DONE</span>',
+  term3:'<span class="c-prompt">$</span> node validate.js --payload client.json\n<span class="c-dim">[VALID]</span> Regex match: email, phone, postal &rarr; <span class="c-ok">PASS</span>\n<span class="c-dim">[STORE]</span> Writing record to SQL backend...\n<span class="c-dim">{</span>\n  <span class="c-key">"client_id"</span>: <span class="c-num">4821</span>,\n  <span class="c-key">"email"</span>: <span class="c-str">"valid@domain.lv"</span>,\n  <span class="c-key">"validated"</span>: <span class="c-num">true</span>,\n  <span class="c-key">"stored"</span>: <span class="c-num">true</span>\n<span class="c-dim">}</span>',
+  term4:'<span class="c-dim">[Excel Engine]:</span> Compiling Data Sheets...\n<span class="c-dim">[Analysis]:</span> Cross-referencing <span class="c-num">50,000+</span> data rows with SQL Server tables.\n<span class="c-dim">[Result]:</span> Automated dashboard generated with zero latency. <span class="c-ok">OK</span>',
+  term5:'<span class="c-prompt">$</span> python quantbot.py --run-scheduler\n<span class="c-dim">[Fetch]</span> Querying targets... Status <span class="c-num">200</span> <span class="c-ok">OK</span>\n<span class="c-dim">[Data ]</span> Extracted JSON schema -&gt; Sanitizing fields...\n<span class="c-dim">[File ]</span> Local database storage updated successfully.',
+  term6:'<span class="c-dim">VividMedia · Editor</span> <span class="c-dim">|</span> <span class="c-num">1920×1080</span> · <span class="c-num">60fps</span>\n<span class="c-dim">[Track 1]</span> Layer · Logo Mark <span class="c-dim">//</span> <span class="c-dim">[Track 2]</span> Layer · Typography\n<span class="c-dim">[Audio]</span> Audio Sync Status: <span class="c-ok">Locked to Keyframes</span>'
+};
+</script>
+<script>
+I18N.lv = {
+  brandRole:'IT SPECIĀLISTS',
+  navAbout:'Par mani', navExp:'Pieredze', navSkills:'Prasmes', navProjects:'Projekti', navContact:'Kontakti',
+  heroBadge:'Pieejams jauniem tehniskiem izaicinājumiem // Statuss: Aktīvs 2026',
+  heroHook:'Mērķtiecīgs IT speciālists un aizrautīgs vibe coder, kas apvieno starptautisku izglītību ar dziļu tehnisko analīzi, lai būvētu augstas efektivitātes digitālo infrastruktūru. Eksperts <strong>datu pārvaldībā, aizmugursistēmas loģikā un tīrā tīmekļa izstrādē.</strong> Pierādīta spēja palielināt uzņēmuma produktivitāti par 20% ar radošu problēmu risināšanu un pozitīvu komandas enerģiju.',
+  cta1:'Skatīt projektus', cta2:'Lejupielādēt CV',
+  m1:'Produktivitātes pieaugums · Uzņēmums', m2:'Gadi pieredzes', m3:'Londonas diplomi', m4:'Produkcijas projekti',
+  roles:['IT speciālists','Full-Stack izstrādātājs','Vibe Coder'],
+  vibeEyebrow:'// Paradigma',
+  vibeH2:'Es esmu <span class="hl">Vibe Coder.</span> Spēcīgi pamati, <br>ko virza AI paātrināts ātrums.',
+  vibeLead:'Mani pamati ir reāli: Python, PHP, SQL un divi Londonas diplomi. <strong style="color:var(--fg)">Vibe Coder</strong> ir radošs, intuitīvs, full-stack un daudzpusīgs izstrādātājs, kas komandai sniedz enerģiju, ātru prototipēšanu un ļoti praktiskus risinājumus. Es izstrādāju loģiku, izprotu katru koda rindu un izmantoju AI tikai kā paātrinātāju, lai zibenīgi piegādātu uzticamu programmatūru — pārvēršot nedēļas manuālas rakstīšanas koncentrētās augstas vērtības stundās.',
+  vibeC1t:'AI paātrināts ātrums',
+  vibeC1d:'Es vadu AI dzinējus, lai acumirklī materializētu arhitektūru, sagataves un integrācijas — pārvēršot nedēļas manuālas rakstīšanas koncentrētās augstas vērtības inženierijas stundās.',
+  vibeC2t:'Arhitekts, nevis mašīnrakstītājs',
+  vibeC2d:'Vispirms izstrādāju sistēmas loģiku — datu plūsmu, shēmas, stāvokli un drošību. AI veic taustiņsitienus; struktūra, lēmumi un kompromisi ir pilnībā mani.',
+  vibeC3t:'Pilnīga koda izpratne',
+  vibeC3d:'Nekas netiek piegādāts kā melnā kaste. Es izlasu, auditēju un uzlaboju katru ģenerēto rindu, lai katra sistēma paliek uzturama, atkļūdojama un patiesi mana — nevis tikai ielīmēta.',
+  velTitle:'Nedēļas → Stundas', velNote:'// relatīvs piegādes laiks, identisks apjoms',
+  barTrad:'Tradicionāla rindiņu izstrāde', barTradTag:'~ nedēļas',
+  barVibe:'Vibe-kodēts · AI paātrināts', barVibeTag:'~ stundas',
+  p01Eyebrow:'01 — Profils', p01Title:'Veidots precizitātei, būvēts analīzei.',
+  p01Sub:'Mērķtiecīgs IT speciālists, kas apvieno Londonas izglītību ar uz produkciju orientētu inženieriju — un AI paātrinātu darbplūsmu, kas piegādā ātri, nezaudējot precizitāti.',
+  aboutH3:'Par mani',
+  aboutP1:'Esmu mērķtiecīgs IT speciālists, kas apvieno starptautiskas studijas Londonā ar praktisku, uz produkciju orientētu inženieriju. Mans fokuss ir <strong>datu pārvaldības</strong>, <strong>aizmugursistēmas loģikas</strong> un <strong>tīras priekšpuses izstrādes</strong> krustpunktā.',
+  aboutP2:'Kas šo apvienojumu padara unikālu: spēcīgos pamatus es papildinu ar AI paātrinātu darbplūsmu — vispirms izstrādāju sistēmu, pēc tam izmantoju AI kā paātrinātāju, lai piegādātu uzticamu, labi dokumentētu programmatūru ātrumā, ko tradicionālā rindiņu rakstīšana nespēj sasniegt.',
+  aboutP3:'Reāli — neviens CV nedod 100% garantiju; pieņemšana darbā vienmēr ietver veiksmi, laiku un atbilstību uzņēmumam. Taču adaptīvs, ātrs izstrādātājs sniedz tieši tos praktiskos risinājumus, kas mūsdienu komandām nepieciešami.',
+  tag1:'Dati un automatizācija', tag2:'Aizmugursistēmas loģika', tag3:'Tīmekļa izstrāde', tag4:'AI paātrināta piegāde',
+  s1t:'Analītiskā domāšana', s1d:'Daudzslāņu datu kopu apstrāde (Excel, SQL), lai atrastu automatizācijas iespējas un pārvērstu neapstrādātus datus strukturētās sistēmās.',
+  s2t:'Starptautiska komunikācija', s2d:'Izglītība Londonā, brīva profesionālā angļu valoda, lieliski jūtos starpkultūru un multikulturālā komandā.',
+  s3t:'Tehniskā adaptācija', s3d:'Ātra prototipēšana — uzreiz apgūstu jaunas sintakses, bibliotēkas un loģikas paradigmas atbilstoši projektam.',
+  s4t:'Precizitāte un rūpība', s4d:'Piegādāju augstas kvalitātes tehnisko dokumentāciju līdzās pašām sistēmām — precizitāte gan kodā, gan rakstos.',
+  growthH3:'Attīstības virzieni', growthChip:'Aktīvi attīstu',
+  growthIntro:'Pašapziņa veicina izaugsmi. Šajās jomās es apzināti iemērku — godīgas vājās puses pārvēršot asākā profesionālā priekšrocībā.',
+  g1t:'Perfekcionisms', g1d:'Pārvirzu fokusu no bezgalīgām mikrooptimizācijām uz dinamisku laika plānošanu — saglabājot izteiktu vērību detaļām, vienlaikus stingri ievērojot termiņus.',
+  g2t:'Backend specializācija', g2d:'Pastāvīgi attīstu PHP, JavaScript un datubāzu drošības arhitektūru, lai padziļinātu savu servera puses un backend izstrādātāja arsenālu.',
+  g3t:'Publiskā uzstāšanās', g3d:'Aktīvi pārvēršu sarežģītus inženierijas jēdzienus pārliecinātās, skaidrās prezentācijās lielām auditorijām.',
+  e02Eyebrow:'02 — Pieredze', e02Title:'Profesionālā pieredze.',
+  e02Sub:'Reāls produkcijas darbs: informācijas sistēmu uzturēšana, datu risinājumu izstrāde un izmērāmu efektivitātes ieguvumu piegāde.',
+  eRole:'IT atbalsta speciālists', eCompany:'Tehnoloģiju uzņēmums · Latvija', eDate:'Janv. 2023 — Apr. 2026',
+  eM1desc:'Infrastruktūras produktivitātes pieaugums ar pielāgotiem skriptiem.', eM2big:'Audits', eM2desc:'Uzturētas un optimizētas uzņēmuma datubāzu sistēmas.', eM3desc:'Pielāgota vaicājumu optimizācija, makro un atskaites.',
+  eb1:'Izstrādāju un ieviesu pielāgotus datu skriptus, palielinot infrastruktūras produktivitāti par 20% un racionalizējot optimizācijas darbplūsmas.',
+  eb2:'Uzturēju, auditēju un optimizēju uzņēmuma datubāzu sistēmas, izmantojot MS Access, MS Excel (padziļināta analītika) un pielāgotu SQL vaicājumu optimizāciju.',
+  eb3:'Sagatavoju skaidru tehnisko dokumentāciju, lietošanas instrukcijas un sistēmu atskaites MS Word, kā arī veidoju digitālos materiālus un vizuālos elementus Canva un Adobe Photoshop.',
+  eb4:'Izstrādāju precīzas priekšpuses saskarnes (HTML, CSS, JavaScript) atbilstoši mūsdienu JavaScript standartiem VS Code vidē, ar aizmugursistēmas loģiku Python valodā un pamatiem PHP.',
+  ed03Eyebrow:'03 — Izglītība', ed03Title:'Starptautiskas kvalifikācijas.',
+  ed03Sub:'Divi Londonā iegūti diplomi informācijas un digitālajās tehnoloģijās, balstīti uz Latvijas vidējo izglītību.',
+  edu1Loc:'Londona, Apvienotā Karaliste', edu1Grade:'Pabeigts ar atzinību (Merit)',
+  edu2Loc:'Londona, Apvienotā Karaliste', edu2Grade:'Sekmīgi absolvēts (Pass)',
+  edu3Loc:'Attīstības centrs · Latvija', edu3Deg:'Vispārējā vidējā izglītība.', edu3Grade:'Matemātika 5 · Angļu valoda 6 · Latviešu valoda 4',
+  s04Eyebrow:'04 — Tehniskās prasmes', s04Title:'Tehnisko prasmju panelis.',
+  s04Sub:'Kategorizēts rīku kopums: valodas, ietvari, datubāzes, arhitektūras rīki un radošā multivide — pilns produkcijas steks.',
+  cat1:'Valodas un ietvari', cat2:'Datubāzes un arhitektūra', cat3:'MI orķestrēšana un prompting', cat4:'Dizains un multivide',
+  bExcel:'MS Excel · padziļināta analītika', bCoT:'Chain-of-Thought promptēšana', bCtx:'Konteksta pārvaldība', bVideo:'Video montāža / rediģēšana', bUIUX:'UI/UX prototipēšana',
+  pr05Eyebrow:'05 — Projekti', pr05Title:'Interaktīvi inženierijas darbi.',
+  pr05Sub:'Seši produkcijas projekti: datu plūsmas, automatizācija, backend portāli, analītika un radošā multivide — katram koda projektam ir dzīvs mock-terminālis. Filtrē pēc kategorijas.',
+  fAll:'Visi', fData:'Datu analītika', fPy:'Python', fPhp:'PHP', fFb:'Frontend/Backend', fDesign:'Dizains un montāža',
+  prj1Concept:'Automatizēta inventāra un relāciju datu plūsma',
+  prj1Desc:'Uzņēmuma līmeņa apstrādes risinājums, kas kartē, sadala un normalizē haotiskus loģistikas failus sakārtotās relāciju shēmās. Python automatizācijas skripti pārvērš plakanus CSV datus sarežģītās relāciju struktūrās SQLite datubāzē, bet pielāgota SQL indeksēšana paātrināja datu izgūšanu lielās tabulās 3.4x.',
+  prj2Concept:'Iekšējais korporatīvais ERP un analītikas portāls',
+  prj2Desc:'Ātrs, drošs tīmekļa dzinis, kas uzrauga slodzi, stāvokli un automātiski ģenerē detalizētas dokumentu atskaites, ko virza PHP REST API. Atsaucīga moduļu priekšpuse (CSS Grid, dinamiski JS atjauninājumi) pārvalda servera stāvokli un sistēmas žurnālus.',
+  prj3Concept:'Dinamiska tīmekļa anketa un datu uztveršanas dzinis',
+  prj3Desc:'Klientu reģistrācijas modulis, kas reāllaikā veic Regex pārbaudi, validācijas datu masīvus un plūstošas klienta puses DOM izmaiņas, sadarbojoties ar SQL aizmugursistēmu. Veidots tīrā vanilla JavaScript ar validācijas regex masīviem un dinamisku DOM renderēšanu.',
+  prj4Concept:'Uzņēmuma padziļināts MS Excel datu analītikas modelis',
+  prj4Desc:'Padziļināts datu analīzes modelis lielu finanšu tabulu apstrādei. Izmanto Pivot izsekošanu, sarežģītas vairāknosacījumu meklēšanas un SQL atlasi, lai atklātu darbības šaurās vietas — salīdzinot 50 000+ datu rindas ar SQL Server tabulām un automātiski ģenerējot pārskatāmus vadības paneļus bez aiztures.',
+  prj5Concept:'Automatizēts Python tīmekļa skrāpis un uzdevumu plānotājs',
+  prj5Desc:'Pielāgots, automatizēts Python skripts, kas fonā izseko datus — iegūst tehniskās datu plūsmas no izkliedētiem tīmekļa mezgliem, apstrādā JSON struktūras un apkopo tos kārtīgos iknedēļas datu failos. Veidots, lai apietu manuālu datu vākšanu, samazinot apkopošanas laiku no nedēļām uz stundām.',
+  prj6Concept:'Augstākā līmeņa zīmola identitāte un reklāmas video komplekts',
+  prj6Desc:'Personīgs dizaina portfolio: augstas precizitātes tīmekļa prototipi, kas veidoti Canva, vizuālā dizaina apstrāde Adobe Photoshop un kinematogrāfiskas īsformāta reklāmas video montāžas, rediģētas precīzi pēc tehniskām audio norādēm.',
+  ml1:'Slānis · Logo zīme', ml2:'Slānis · Tipogrāfija', ml3:'Maska · Gradienta mirdzums', ml4:'Korekcija · Līknes',
+  projEmpty:'// Neviens projekts neatbilst šai kategorijai.',
+  c06Eyebrow:'06 — Kontakti', c06Title:'Būvēsim ko precīzu.',
+  c06Sub:'Atvērts tehniskiem amatiem, sadarbībai un AI paātrinātiem backend izaicinājumiem. Sazinies tieši vai atstāj ziņu.',
+  ciH3:'Sazinies', ciIntro:'Atrodos Latvijā un esmu pieejams attālinātam un klātienes darbam visā ES un Apvienotajā Karalistē.',
+  lblLoc:'Atrašanās vieta', locVal:'Ogre, Latvija · LV-5001', lblEmail:'E-pasts', lblPhone:'Tālrunis',
+  fName:'Vārds', fNamePh:'Tavs vārds', fEmail:'E-pasts', fEmailPh:'you@email.com', fSubject:'Tēma', fSubjectPh:'Projekts, amats vai sadarbība', fMessage:'Ziņa', fMessagePh:'Pastāsti par savu projektu vai iespēju…', fSend:'Sūtīt ziņu',
+  stIncomplete:'// Lūdzu aizpildi vārdu, e-pastu un ziņu.', stEmail:'// Šī e-pasta adrese izskatās nederīga.', stOpening:'// Ziņa pārbaudīta — atveru e-pasta klientu…', stThanksA:'// Paldies, ', stThanksB:'. Ja klients neatvērās, raksti tieši uz jiyotaka352199@gmail.com.',
+  footRole:'VIBE CODER', footTagline:'Veidots ar tīru kodu un AI ātrumu.', toTop:'Atpakaļ uz augšu',
+  auraLines:[
+    '<span class="c-prompt">$</span> python pipeline.py --source logistics_q1.csv',
+    '<span class="c-dim">[INFO]</span> Inicializē AuraDB plūsmu...',
+    '<span class="c-dim">[INFO]</span> Apstrādā failu <span class="c-str">logistics_q1.csv</span> · normalizē shēmu',
+    '<span class="c-dim">[INFO]</span> Kartē &rarr; <span class="c-key">inventory</span>, <span class="c-key">suppliers</span>, <span class="c-key">orders</span>',
+    '<span class="c-dim">[SQL ]</span> CREATE INDEX idx_sku ON inventory(sku);',
+    '<span class="c-dim">[INFO]</span> Apstrādā failu... <span class="c-num">200</span> rindas indeksētas. <span class="c-ok">OK</span>',
+    '<span class="c-dim">[DONE]</span> Plūsma pabeigta · izgūšana optimizēta <span class="c-num">3.4x</span>'
+  ],
+  term2:'<span class="c-dim">[BOOT]</span> Startē CorePulse ERP servisus...\n<span class="c-live">LIVE</span> <span class="c-dim">|</span> <span class="c-num">98.6%</span> Darbspēja <span class="c-dim">|</span> <span class="c-num">1,284</span> Ieraksti <span class="c-dim">|</span> <span class="c-num">42</span> Atskaites ģenerētas\n<span class="c-dim">[Sistēmas žurnāls]:</span> PHP PDO droši savienots ar MS SQL datubāzi. <span class="c-ok">OK</span>\n<span class="c-dim">[ATSKAITE]</span> Ģenerē monthly_summary.pdf ... <span class="c-ok">GATAVS</span>',
+  term3:'<span class="c-prompt">$</span> node validate.js --payload client.json\n<span class="c-dim">[VALID]</span> Regex atbilstība: e-pasts, tālrunis, indekss &rarr; <span class="c-ok">IZTURĒTS</span>\n<span class="c-dim">[STORE]</span> Saglabā ierakstu SQL aizmugursistēmā...\n<span class="c-dim">{</span>\n  <span class="c-key">"client_id"</span>: <span class="c-num">4821</span>,\n  <span class="c-key">"email"</span>: <span class="c-str">"valid@domain.lv"</span>,\n  <span class="c-key">"validated"</span>: <span class="c-num">true</span>,\n  <span class="c-key">"stored"</span>: <span class="c-num">true</span>\n<span class="c-dim">}</span>',
+  term4:'<span class="c-dim">[Excel dzinis]:</span> Apkopo datu lapas...\n<span class="c-dim">[Analīze]:</span> Salīdzina <span class="c-num">50 000+</span> datu rindas ar SQL Server tabulām.\n<span class="c-dim">[Rezultāts]:</span> Automātisks panelis ģenerēts bez aiztures. <span class="c-ok">OK</span>',
+  term5:'<span class="c-prompt">$</span> python quantbot.py --run-scheduler\n<span class="c-dim">[Fetch]</span> Vaicā mērķus... Statuss <span class="c-num">200</span> <span class="c-ok">OK</span>\n<span class="c-dim">[Data ]</span> Iegūta JSON shēma -&gt; Tīra laukus...\n<span class="c-dim">[File ]</span> Lokālā datubāze veiksmīgi atjaunināta.',
+  term6:'<span class="c-dim">VividMedia · Redaktors</span> <span class="c-dim">|</span> <span class="c-num">1920×1080</span> · <span class="c-num">60fps</span>\n<span class="c-dim">[Celiņš 1]</span> Slānis · Logo zīme <span class="c-dim">//</span> <span class="c-dim">[Celiņš 2]</span> Slānis · Tipogrāfija\n<span class="c-dim">[Audio]</span> Audio sinhronizācija: <span class="c-ok">Piesaistīts atslēgkadriem</span>'
+};
+</script>
+<script>
+I18N.ru = {
+  brandRole:'IT-СПЕЦИАЛИСТ',
+  navAbout:'Обо мне', navExp:'Опыт', navSkills:'Навыки', navProjects:'Проекты', navContact:'Контакты',
+  heroBadge:'Открыт для новых технических задач // Статус: Активен 2026',
+  heroHook:'Целеустремлённый IT-специалист и увлечённый vibe coder, объединяющий международное образование с глубоким техническим анализом для создания высокоэффективной цифровой инфраструктуры. Эксперт в <strong>управлении данными, серверной логике и чистой веб-разработке.</strong> Подтверждённый опыт повышения продуктивности предприятия на 20% за счёт креативного решения задач и позитивной командной энергии.',
+  cta1:'Смотреть проекты', cta2:'Скачать резюме',
+  m1:'Рост продуктивности · Бизнес', m2:'Лет опыта', m3:'Лондонских диплома', m4:'Проекта в продакшене',
+  roles:['IT-специалист','Full-Stack разработчик','Vibe Coder'],
+  vibeEyebrow:'// Парадигма',
+  vibeH2:'Я <span class="hl">Vibe Coder.</span> Прочный фундамент, <br>усиленный AI-ускорением.',
+  vibeLead:'Мои основы реальны: Python, PHP, SQL и два лондонских диплома. <strong style="color:var(--fg)">Vibe Coder</strong> — это креативный, интуитивный, full-stack и универсальный разработчик, который приносит команде энергию, быстрое прототипирование и практичные решения. Я проектирую логику, понимаю каждую строку кода и использую ИИ исключительно как ускоритель, чтобы молниеносно выпускать надёжное ПО — превращая недели ручного кода в сфокусированные часы высокоэффективной разработки.',
+  vibeC1t:'AI-ускоренная скорость',
+  vibeC1d:'Я управляю ИИ-движками, чтобы мгновенно создавать архитектуру, шаблонный код и интеграции — превращая недели ручного набора в часы высокоэффективной разработки.',
+  vibeC2t:'Архитектор, а не наборщик',
+  vibeC2d:'Сначала я проектирую логику системы — потоки данных, схемы, состояние и безопасность. ИИ берёт на себя набор кода; структура, решения и компромиссы — полностью мои.',
+  vibeC3t:'Полное понимание кода',
+  vibeC3d:'Ничего не выпускается как «чёрный ящик». Я читаю, проверяю и дорабатываю каждую сгенерированную строку, чтобы система оставалась поддерживаемой, отлаживаемой и действительно моей — а не просто вставленной.',
+  velTitle:'Недели → Часы', velNote:'// относительное время поставки, одинаковый объём',
+  barTrad:'Традиционная построчная разработка', barTradTag:'~ недели',
+  barVibe:'Vibe-разработка · с AI-ускорением', barVibeTag:'~ часы',
+  p01Eyebrow:'01 — Профиль', p01Title:'Создан для точности, построен для анализа.',
+  p01Sub:'Целеустремлённый IT-специалист, сочетающий лондонское образование с продакшен-инженерией — и AI-ускоренный процесс, который выпускает быстро, не теряя в строгости.',
+  aboutH3:'Обо мне',
+  aboutP1:'Я целеустремлённый IT-специалист, сочетающий международную учёбу в Лондоне с практичной, ориентированной на продакшен разработкой. Мой фокус — на стыке <strong>управления данными</strong>, <strong>серверной логики</strong> и <strong>чистой фронтенд-разработки</strong>.',
+  aboutP2:'Что делает это сочетание уникальным: прочный фундамент я дополняю AI-ускоренным процессом — сначала проектирую систему, затем использую ИИ как ускоритель, чтобы выпускать надёжное, хорошо документированное ПО со скоростью, недостижимой для традиционного построчного кода.',
+  aboutP3:'Реально — ни одно резюме не даёт 100% гарантии; наём всегда зависит от удачи, времени и совпадения с компанией. Но адаптивный, высокоскоростной разработчик приносит именно те практичные решения, которые нужны современным командам.',
+  tag1:'Данные и автоматизация', tag2:'Серверная логика', tag3:'Веб-разработка', tag4:'Доставка с AI-ускорением',
+  s1t:'Аналитическое мышление', s1d:'Многоуровневая обработка наборов данных (Excel, SQL) для поиска точек автоматизации и превращения сырых данных в структурированные системы.',
+  s2t:'Международная коммуникация', s2d:'Образование в Лондоне, свободный профессиональный английский, уверенная работа в кросс-культурных и мультикультурных командах.',
+  s3t:'Техническая адаптация', s3d:'Быстрое прототипирование — мгновенное освоение новых синтаксисов, библиотек и парадигм под конкретный проект.',
+  s4t:'Точность и тщательность', s4d:'Создаю качественную техническую документацию вместе с самими системами — точность и в коде, и в текстах.',
+  growthH3:'Зоны роста', growthChip:'Активно развиваю',
+  growthIntro:'Самосознание движет ростом. В эти зоны я вкладываюсь осознанно — превращая честные слабые стороны в профессиональное преимущество.',
+  g1t:'Перфекционизм', g1d:'Смещаю фокус с бесконечных микрооптимизаций на динамичный тайм-боксинг — сохраняя внимание к деталям и при этом укладываясь в сроки.',
+  g2t:'Серверная специализация', g2d:'Постоянно развиваю PHP, JavaScript и архитектуру безопасности баз данных, углубляя свой серверный и backend-арсенал.',
+  g3t:'Публичные выступления', g3d:'Активно превращаю сложные инженерные концепции в уверенные, понятные презентации для больших аудиторий.',
+  e02Eyebrow:'02 — Опыт', e02Title:'Профессиональный опыт.',
+  e02Sub:'Реальная продакшен-работа: поддержка ключевых информационных систем, инженерия решений для данных и измеримый рост эффективности.',
+  eRole:'Специалист IT-поддержки', eCompany:'Технологическая компания · Латвия', eDate:'Янв 2023 — Апр 2026',
+  eM1desc:'Рост продуктивности инфраструктуры за счёт скриптов.', eM2big:'Аудит', eM2desc:'Поддержка и оптимизация корпоративных баз данных.', eM3desc:'Оптимизация запросов, макросы и системные отчёты.',
+  eb1:'Разработал и внедрил кастомные скрипты обработки данных, повысив продуктивность инфраструктуры на 20% и оптимизировав рабочие процессы.',
+  eb2:'Поддерживал, проверял и оптимизировал корпоративные базы данных с помощью MS Access, MS Excel (продвинутая аналитика) и оптимизации SQL-запросов.',
+  eb3:'Создавал понятную техническую документацию, инструкции и системные отчёты в MS Word, а также цифровые материалы и визуалы в Canva и Adobe Photoshop.',
+  eb4:'Разрабатывал аккуратные фронтенд-интерфейсы (HTML, CSS, JavaScript) по современным стандартам JavaScript в VS Code, с серверной логикой на Python и базовым PHP.',
+  ed03Eyebrow:'03 — Образование', ed03Title:'Международные квалификации.',
+  ed03Sub:'Два лондонских диплома в области информационных и цифровых технологий на базе латвийского среднего образования.',
+  edu1Loc:'Лондон, Великобритания', edu1Grade:'С отличием (Merit)',
+  edu2Loc:'Лондон, Великобритания', edu2Grade:'Зачёт (Pass)',
+  edu3Loc:'Центр развития · Латвия', edu3Deg:'Среднее общее образование.', edu3Grade:'Математика 5 · Английский 6 · Латышский 4',
+  s04Eyebrow:'04 — Технический стек', s04Title:'Панель технических навыков.',
+  s04Sub:'Категоризированный набор: языки, фреймворки, базы данных, архитектурные инструменты и креативное мультимедиа — полный продакшен-стек.',
+  cat1:'Языки и фреймворки', cat2:'Базы данных и архитектура', cat3:'AI-оркестрация и промптинг', cat4:'Дизайн и мультимедиа',
+  bExcel:'MS Excel · продвинутая аналитика', bCoT:'Chain-of-Thought промптинг', bCtx:'Управление контекстом', bVideo:'Видеомонтаж / монтаж', bUIUX:'UI/UX прототипирование',
+  pr05Eyebrow:'05 — Проекты', pr05Title:'Интерактивные инженерные проекты.',
+  pr05Sub:'Шесть продакшен-проектов: конвейеры данных, автоматизация, backend-порталы, аналитика и креативные медиа — у каждого кодового проекта живой mock-терминал. Фильтр по категории.',
+  fAll:'Все', fData:'Анализ данных', fPy:'Python', fPhp:'PHP', fFb:'Frontend/Backend', fDesign:'Дизайн и монтаж',
+  prj1Concept:'Автоматизированный конвейер инвентаря и реляционных данных',
+  prj1Desc:'Корпоративный парсер, который сопоставляет, разбивает и нормализует хаотичные логистические файлы в упорядоченные реляционные схемы. Python-скрипты автоматизации превращают плоские CSV-данные в сложные реляционные структуры в базе SQLite, а кастомная SQL-индексация ускорила выборку данных в больших таблицах в 3.4 раза.',
+  prj2Concept:'Внутренний корпоративный ERP и портал аналитики',
+  prj2Desc:'Быстрый и безопасный веб-движок, отслеживающий нагрузку, состояние и автоматически генерирующий подробные отчёты, на базе PHP REST API. Адаптивный модульный фронтенд (CSS Grid, динамические JS-обновления) управляет серверным состоянием и системными логами.',
+  prj3Concept:'Динамический веб-опрос и движок сбора данных',
+  prj3Desc:'Модуль онбординга клиентов с проверкой Regex в реальном времени, массивами валидации и плавными изменениями DOM на стороне клиента, взаимодействующий с SQL-бэкендом. Реализован на чистом vanilla JavaScript с массивами regex-валидации и динамическим рендерингом DOM.',
+  prj4Concept:'Корпоративная продвинутая модель аналитики данных в Excel',
+  prj4Desc:'Глубокая модель анализа данных для обработки больших финансовых таблиц. Использует продвинутые сводные таблицы, сложные многоусловные поиски и выборки из SQL для выявления узких мест — сверяя 50 000+ строк с таблицами SQL Server и автоматически создавая понятные управленческие дашборды без задержек.',
+  prj5Concept:'Автоматизированный Python веб-скрапер и планировщик задач',
+  prj5Desc:'Кастомный автоматизированный Python-скрипт фонового отслеживания — собирает технические потоки данных с разрозненных веб-узлов, парсит JSON-структуры и компилирует их в аккуратные еженедельные файлы. Создан, чтобы устранить ручной скрапинг, сократив время компиляции данных с недель до часов.',
+  prj6Concept:'Премиальный фирменный стиль и набор промо-видео',
+  prj6Desc:'Личное портфолио дизайна: высокоточные веб-прототипы в Canva, визуальная обработка в Adobe Photoshop и кинематографичные короткие промо-видеомонтажи, смонтированные точно по техническим аудио-меткам.',
+  ml1:'Слой · Логотип', ml2:'Слой · Типографика', ml3:'Маска · Градиентное свечение', ml4:'Коррекция · Кривые',
+  projEmpty:'// Нет проектов в этой категории.',
+  c06Eyebrow:'06 — Контакты', c06Title:'Давайте создадим точное решение.',
+  c06Sub:'Открыт для технических ролей, сотрудничества и backend-задач с AI-ускорением. Свяжитесь напрямую или напишите сообщение.',
+  ciH3:'Связаться', ciIntro:'Нахожусь в Латвии, доступен для удалённой и офисной работы по ЕС и Великобритании.',
+  lblLoc:'Местоположение', locVal:'Огре, Латвия · LV-5001', lblEmail:'Эл. почта', lblPhone:'Телефон',
+  fName:'Имя', fNamePh:'Ваше имя', fEmail:'Эл. почта', fEmailPh:'you@email.com', fSubject:'Тема', fSubjectPh:'Проект, должность или сотрудничество', fMessage:'Сообщение', fMessagePh:'Расскажите о проекте или возможности…', fSend:'Отправить',
+  stIncomplete:'// Заполните имя, эл. почту и сообщение.', stEmail:'// Похоже, адрес эл. почты неверный.', stOpening:'// Сообщение проверено — открываю почтовый клиент…', stThanksA:'// Спасибо, ', stThanksB:'. Если клиент не открылся, напишите напрямую на jiyotaka352199@gmail.com.',
+  footRole:'VIBE CODER', footTagline:'Создано на чистом коде и AI-скорости.', toTop:'Наверх',
+  auraLines:[
+    '<span class="c-prompt">$</span> python pipeline.py --source logistics_q1.csv',
+    '<span class="c-dim">[INFO]</span> Инициализация конвейера AuraDB...',
+    '<span class="c-dim">[INFO]</span> Обработка файла <span class="c-str">logistics_q1.csv</span> · нормализация схемы',
+    '<span class="c-dim">[INFO]</span> Сопоставление &rarr; <span class="c-key">inventory</span>, <span class="c-key">suppliers</span>, <span class="c-key">orders</span>',
+    '<span class="c-dim">[SQL ]</span> CREATE INDEX idx_sku ON inventory(sku);',
+    '<span class="c-dim">[INFO]</span> Обработка файла... <span class="c-num">200</span> строк проиндексировано. <span class="c-ok">OK</span>',
+    '<span class="c-dim">[DONE]</span> Конвейер завершён · выборка ускорена <span class="c-num">3.4x</span>'
+  ],
+  term2:'<span class="c-dim">[BOOT]</span> Запуск сервисов CorePulse ERP...\n<span class="c-live">LIVE</span> <span class="c-dim">|</span> <span class="c-num">98.6%</span> Аптайм <span class="c-dim">|</span> <span class="c-num">1,284</span> Записей <span class="c-dim">|</span> <span class="c-num">42</span> Отчётов создано\n<span class="c-dim">[Системный лог]:</span> PHP PDO безопасно подключён к базе MS SQL. <span class="c-ok">OK</span>\n<span class="c-dim">[ОТЧЁТ]</span> Генерация monthly_summary.pdf ... <span class="c-ok">ГОТОВО</span>',
+  term3:'<span class="c-prompt">$</span> node validate.js --payload client.json\n<span class="c-dim">[VALID]</span> Совпадение Regex: email, телефон, индекс &rarr; <span class="c-ok">ПРОЙДЕНО</span>\n<span class="c-dim">[STORE]</span> Запись в SQL-бэкенд...\n<span class="c-dim">{</span>\n  <span class="c-key">"client_id"</span>: <span class="c-num">4821</span>,\n  <span class="c-key">"email"</span>: <span class="c-str">"valid@domain.lv"</span>,\n  <span class="c-key">"validated"</span>: <span class="c-num">true</span>,\n  <span class="c-key">"stored"</span>: <span class="c-num">true</span>\n<span class="c-dim">}</span>',
+  term4:'<span class="c-dim">[Движок Excel]:</span> Компиляция таблиц данных...\n<span class="c-dim">[Анализ]:</span> Сверка <span class="c-num">50 000+</span> строк с таблицами SQL Server.\n<span class="c-dim">[Результат]:</span> Панель создана автоматически без задержек. <span class="c-ok">OK</span>',
+  term5:'<span class="c-prompt">$</span> python quantbot.py --run-scheduler\n<span class="c-dim">[Fetch]</span> Запрос целей... Статус <span class="c-num">200</span> <span class="c-ok">OK</span>\n<span class="c-dim">[Data ]</span> Извлечена схема JSON -&gt; Очистка полей...\n<span class="c-dim">[File ]</span> Локальная база данных успешно обновлена.',
+  term6:'<span class="c-dim">VividMedia · Редактор</span> <span class="c-dim">|</span> <span class="c-num">1920×1080</span> · <span class="c-num">60fps</span>\n<span class="c-dim">[Дорожка 1]</span> Слой · Логотип <span class="c-dim">//</span> <span class="c-dim">[Дорожка 2]</span> Слой · Типографика\n<span class="c-dim">[Аудио]</span> Синхронизация аудио: <span class="c-ok">Привязано к ключевым кадрам</span>'
+};
+</script>
 <script>
 (function(){
   "use strict";
@@ -1090,29 +1419,57 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
   /* ---------- Year ---------- */
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* ---------- Typewriter subtitle ---------- */
-  (function typer(){
-    var el = document.getElementById("typeText");
-    if (!el) return;
-    var roles = ["IT Specialist", "Full-Stack Developer", "Vibe Coder"];
-    if (reduceMotion){ el.textContent = roles.join(" | "); return; }
+  /* ---------- i18n engine ---------- */
+  var T = window.I18N || {};
+  var currentLang = "en";
+  var STORE = "ka-lang";
+  var dlLink = document.getElementById("downloadCv");
+
+  /* ---------- Typewriter subtitle (restartable, language-aware) ---------- */
+  var typeEl = document.getElementById("typeText");
+  var typeRoles = ["IT Specialist", "Full-Stack Developer", "Vibe Coder"];
+  var _tTimer = null;
+  function startTyper(){
+    if (!typeEl) return;
+    if (_tTimer){ clearTimeout(_tTimer); _tTimer = null; }
+    if (reduceMotion){ typeEl.textContent = typeRoles.join(" | "); return; }
     var ri = 0, ci = 0, deleting = false;
     function tick(){
-      var word = roles[ri];
+      var word = typeRoles[ri] || "";
       if (!deleting){
-        ci++;
-        el.textContent = word.slice(0, ci);
-        if (ci === word.length){ deleting = true; return setTimeout(tick, 1500); }
-        setTimeout(tick, 70);
+        ci++; typeEl.textContent = word.slice(0, ci);
+        if (ci === word.length){ deleting = true; _tTimer = setTimeout(tick, 1500); return; }
+        _tTimer = setTimeout(tick, 70);
       } else {
-        ci--;
-        el.textContent = word.slice(0, ci);
-        if (ci === 0){ deleting = false; ri = (ri + 1) % roles.length; return setTimeout(tick, 320); }
-        setTimeout(tick, 36);
+        ci--; typeEl.textContent = word.slice(0, ci);
+        if (ci <= 0){ deleting = false; ri = (ri + 1) % typeRoles.length; _tTimer = setTimeout(tick, 320); return; }
+        _tTimer = setTimeout(tick, 36);
       }
     }
-    setTimeout(tick, 600);
-  })();
+    _tTimer = setTimeout(tick, 400);
+  }
+
+  /* Apply a full language pack across the entire page. */
+  function applyLang(lang){
+    if (!T[lang]) lang = "en";
+    currentLang = lang;
+    var d = T[lang] || {};
+    document.documentElement.setAttribute("lang", lang);
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var v = d[el.getAttribute("data-i18n")];
+      if (v != null) el.innerHTML = v;
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var v = d[el.getAttribute("data-i18n-ph")];
+      if (v != null) el.setAttribute("placeholder", v);
+    });
+    if (dlLink){ dlLink.setAttribute("href", lang === "en" ? "Kristofers_Avotins_CV.pdf" : "Kristofers_Avotins_CV_LV.pdf"); }
+    if (d.roles){ typeRoles = d.roles; }
+    startTyper();
+    if (d.auraLines){ auraLines = d.auraLines; if (done.aura && auraTermEl){ typeTerminal(auraTermEl, auraLines); } }
+    var sw = document.getElementById("langSwitch");
+    if (sw){ sw.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", b.getAttribute("data-lang") === lang); }); }
+  }
 
   /* ---------- Nav: scrolled state + mobile menu ---------- */
   var nav = document.getElementById("nav");
@@ -1190,20 +1547,13 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
     emptyMsg.style.display = shown === 0 ? "block" : "none";
   });
 
-  /* ---------- AuraDB terminal typing ---------- */
-  var auraLines = [
-    { html:'<span class="c-prompt">$</span> python pipeline.py --source logistics_q1.csv' },
-    { html:'<span class="c-dim">[INFO]</span> Initializing AuraDB pipeline...' },
-    { html:'<span class="c-dim">[INFO]</span> Parsing file <span class="c-str">logistics_q1.csv</span> · normalizing schema' },
-    { html:'<span class="c-dim">[INFO]</span> Mapping → <span class="c-key">inventory</span>, <span class="c-key">suppliers</span>, <span class="c-key">orders</span>' },
-    { html:'<span class="c-dim">[SQL ]</span> CREATE INDEX idx_sku ON inventory(sku);' },
-    { html:'<span class="c-dim">[INFO]</span> Parsing file... <span class="c-num">200</span> rows indexed. <span class="c-ok">OK</span>' },
-    { html:'<span class="c-dim">[DONE]</span> Pipeline complete · retrieval optimized <span class="c-num">3.4x</span>' }
-  ];
+  /* ---------- AuraDB terminal typing (language-aware; lines set by applyLang) ---------- */
+  var auraTermEl = document.querySelector('[data-typed="auradb"]');
+  var auraLines = (T.en && T.en.auraLines) ? T.en.auraLines : [];
   function typeTerminal(el, lines){
     el.innerHTML = "";
     var li = 0, ci = 0, current = null, plain = [];
-    lines.forEach(function(l){ var t = document.createElement("div"); t.innerHTML = l.html; plain.push(t.textContent || ""); });
+    lines.forEach(function(l){ var t = document.createElement("div"); t.innerHTML = l; plain.push(t.textContent || ""); });
     function placeCursor(node){
       var ex = el.querySelector(".cursor-t"); if (ex) ex.remove();
       var c = document.createElement("span"); c.className = "cursor-t"; node.appendChild(c);
@@ -1217,7 +1567,7 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
         placeCursor(current);
         setTimeout(step, 13);
       } else {
-        current.innerHTML = lines[li].html;
+        current.innerHTML = lines[li];
         li++; ci = 0;
         if (li >= lines.length){
           var last = document.createElement("span"); last.className = "ln"; el.appendChild(last); placeCursor(last);
@@ -1247,97 +1597,66 @@ footer{border-top:1px solid var(--border);padding:46px 0;margin-top:40px}
     visualTargets.forEach(runVisual);
   }
 
-  /* ---------- Contact form (no backend — mailto draft) ---------- */
+  /* ---------- Contact form → Formspree (AJAX POST, stays on page) ---------- */
   var form = document.getElementById("contactForm");
   var status = document.getElementById("formStatus");
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    var name = form.name.value.trim(), email = form.email.value.trim();
-    var subject = form.subject.value.trim(), message = form.message.value.trim();
-    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!name || !email || !message){ status.textContent = "// Please complete name, email and message."; return; }
-    if (!emailRe.test(email)){ status.textContent = "// That email address looks invalid."; return; }
-    var subj = subject || ("Portfolio enquiry from " + name);
-    var body = "Name: " + name + "\nEmail: " + email + "\n\n" + message;
-    var mailto = "mailto:jiyotaka352199@gmail.com?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body);
-    status.textContent = "// Message validated — opening your mail client…";
-    window.location.href = mailto;
-    setTimeout(function(){ status.textContent = "// Thanks, " + name + ". If your client didn't open, email jiyotaka352199@gmail.com directly."; form.reset(); }, 900);
-  });
+  var FORM_MSG = {
+    en:{ sending:"// Sending…", ok:"// Thanks! Your message has been sent.", err:"// Something went wrong — email jiyotaka352199@gmail.com directly." },
+    lv:{ sending:"// Sūta…", ok:"// Paldies! Tava ziņa ir nosūtīta.", err:"// Radās kļūda — raksti tieši uz jiyotaka352199@gmail.com." },
+    ru:{ sending:"// Отправка…", ok:"// Спасибо! Ваше сообщение отправлено.", err:"// Произошла ошибка — напишите на jiyotaka352199@gmail.com." }
+  };
+  if (form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var d = T[currentLang] || {};
+      var msg = FORM_MSG[currentLang] || FORM_MSG.en;
+      var el = form.elements;
+      var name = ((el["name"] && el["name"].value) || "").trim();
+      var email = ((el["email"] && el["email"].value) || "").trim();
+      var message = ((el["message"] && el["message"].value) || "").trim();
+      var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!name || !email || !message){ status.textContent = d.stIncomplete || "// Please complete name, email and message."; return; }
+      if (!emailRe.test(email)){ status.textContent = d.stEmail || "// That email address looks invalid."; return; }
+      status.textContent = msg.sending;
+      fetch(form.action, { method:"POST", body:new FormData(form), headers:{ "Accept":"application/json" } })
+        .then(function(r){
+          if (r.ok){ status.textContent = msg.ok; form.reset(); return; }
+          return r.json().then(function(data){
+            status.textContent = (data && data.errors && data.errors.length)
+              ? ("// " + data.errors.map(function(x){ return x.message; }).join(", "))
+              : msg.err;
+          }).catch(function(){ status.textContent = msg.err; });
+        })
+        .catch(function(){ status.textContent = msg.err; });
+    });
+  }
 
-  /* ---------- Download CV (self-contained text résumé) ---------- */
-  var cvText = [
-"KRISTOFERS AVOTIŅŠ",
-"IT Specialist / Systems Developer / Next-Gen Vibe Coder",
-"=======================================================",
-"",
-"Ogre, Latvia (LV-5001)  |  jiyotaka352199@gmail.com  |  +371 29165331",
-"",
-"PROFILE",
-"-------",
-"Goal-oriented IT specialist with international education (London) and practical",
-"skills in digital technologies. Fluent professional English, comfortable in",
-"multicultural teams. A modern 'Vibe Coder': deep IT foundations combined with",
-"AI-augmented velocity — architecting production-ready systems in hours, not weeks,",
-"while fully understanding and auditing every line shipped.",
-"",
-"EXPERIENCE",
-"----------",
-"IT Atbalsta Speciālists — Technology Company, Latvia   (Jan 2023 – Apr 2026)",
-"  * Developed/deployed custom data scripts, boosting infrastructure productivity by 20%.",
-"  * Maintained, audited and optimized enterprise database systems using MS Access,",
-"    MS Excel (Advanced Analytics) and custom SQL query optimization.",
-"  * Authored technical documentation, instruction manuals and system reports",
-"    (MS Word) and created digital assets on Canva and Adobe Photoshop.",
-"  * Built crisp front-end interfaces (HTML, CSS, JavaScript) to modern JS benchmarks;",
-"    logic in Python with foundational PHP.",
-"",
-"EDUCATION",
-"---------",
-"UKversity, London (2025–2026)",
-"  ATHE Level 3 Diploma in Information and Digital Technologies — Merit / Ar atzinību",
-"South Bank Colleges, London (2023–2025)",
-"  BTEC Level 2 Information and Technology — Pass / Sekmīgi absolvēts",
-"Rīgas Strazdumuižas vidusskola – attīstības centrs (2011–2022)",
-"  General secondary education — Math 5, English 6, Latvian 4",
-"",
-"TECHNICAL STACK",
-"---------------",
-"Languages & Frameworks: Python, PHP, SQL, HTML5, CSS3, JavaScript (ES6)",
-"Databases & Architecture: MS SQL Server, SQLite, MS Access, MS Excel (Advanced",
-"                          Analytics), VS Code",
-"AI Orchestration: Claude 3.5 Sonnet, OpenAI GPT-4o, Cursor OS, GitHub Copilot,",
-"                  Advanced Prompt Engineering (Chain-of-Thought, Context Mgmt)",
-"Design & Multimedia: Adobe Photoshop, Video Montage/Editing, UI/UX Prototyping,",
-"                     Canva Pro",
-"",
-"STRENGTHS",
-"---------",
-"Analytical thinking (data & automation), international communication (fluent English),",
-"rapid technical adaptation / prototyping, precision in systems and documentation.",
-"",
-"GROWTH FOCUS",
-"------------",
-"Time-boxing perfectionism, advancing PHP/JS & database-security backend specialization,",
-"public speaking.",
-"",
-"SELECTED PROJECTS",
-"-----------------",
-"AuraDB    — Automated inventory & relational data pipeline (Python, SQLite/SQL indexing).",
-"CorePulse — Internal corporate ERP & analytics portal (PHP REST API, PDO + MS SQL).",
-"OmniForm  — Dynamic web survey & data-capture engine (vanilla JS, regex, SQL schema).",
-"InSight   — Enterprise advanced Excel data-analytics model (PivotTables + SQL Server).",
-"QuantBot  — Automated Python web scraper & task scheduler (requests, JSON, scheduling).",
-"VividMedia — Brand identity & promotional video suite (Photoshop, video montage, Canva)."
-  ].join("\n");
-  document.getElementById("downloadCv").addEventListener("click", function(){
-    var blob = new Blob([cvText], { type: "text/plain;charset=utf-8" });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url; a.download = "Kristofers_Avotins_CV.txt";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
-  });
+  /* ---------- Language splash + nav switcher (low-latency, no reload) ---------- */
+  var splash = document.getElementById("splash");
+  function chooseLang(lang, persist){
+    applyLang(lang);
+    if (persist){ try { localStorage.setItem(STORE, lang); } catch (e) {} }
+  }
+  function hideSplash(){
+    if (!splash) return;
+    splash.classList.add("hide");
+    setTimeout(function(){ splash.style.display = "none"; }, 600);
+  }
+  var saved = null; try { saved = localStorage.getItem(STORE); } catch (e) {}
+  if (saved && T[saved]){ applyLang(saved); if (splash){ splash.style.display = "none"; } }
+  else { applyLang("en"); /* first visit — keep splash visible for language choice */ }
+  if (splash){
+    splash.querySelectorAll("[data-lang]").forEach(function(b){
+      b.addEventListener("click", function(){ chooseLang(b.getAttribute("data-lang"), true); hideSplash(); });
+    });
+  }
+  var navSwitch = document.getElementById("langSwitch");
+  if (navSwitch){
+    navSwitch.addEventListener("click", function(e){
+      var b = e.target.closest("button"); if (!b) return;
+      chooseLang(b.getAttribute("data-lang"), true);
+    });
+  }
 
 })();
 </script>
